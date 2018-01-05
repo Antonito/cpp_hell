@@ -13,6 +13,7 @@ public:
 	public:
 		virtual ~ICallable() {}
 		virtual R Invoke() = 0;
+		virtual R Invoke() const = 0;
 	};
 
 	template <typename T>
@@ -25,12 +26,21 @@ public:
 		{
 			return m_t();
 		}
+		R Invoke() const
+		{
+			return m_t();
+		}
 	private:
 		T m_t;
 	};
 	
 	Function() : m_callable(NULL)
 	{
+	}
+
+	~Function()
+	{
+		delete m_callable;
 	}
 
 	template <typename T>
@@ -41,11 +51,21 @@ public:
 	template <typename T>
 	Function &operator=(T t)
 	{
+		delete m_callable;
 		m_callable = new Callable<T>(t);
 		return *this;
 	}
 
 	R operator()()
+	{
+		if (!m_callable)
+		{
+			throw std::exception();
+		}
+		return m_callable->Invoke();
+	}
+
+	R operator()() const
 	{
 		if (!m_callable)
 		{
