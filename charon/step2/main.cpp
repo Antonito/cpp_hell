@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <functional>
 #include "Function.hpp"
 
 class Callable
@@ -55,11 +56,11 @@ int main()
 	resI = f3("Whaou ", 5, 4);
 	std::cout << "Res: " << resI << std::endl;
 
-	Function<double (std::string const &, int, double, double)> f2 = &fourFunction;
+	Function<double (std::string const &, int, double, double)> f4 = &fourFunction;
 	double resD = f4("Double", 5, 6, 14);
 	std::cout << "Res: " << resD << std::endl;
 
-	Function<int (std::string const &, int, int)> b1 = std::bind(&threeFunction, "Bind", std::placeholders::_1, std::placeholders::_2);
+	Function<int (int, int)> b1 = std::bind(&threeFunction, "Bind", std::placeholders::_1, std::placeholders::_2);
 	resI = b1(2, 3);
 	std::cout << "Res: " << resI << std::endl;
 
