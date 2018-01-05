@@ -76,25 +76,71 @@ public:
 private:
 	ICallable *m_callable;
 };
-//
-//template <typename R, typename Arg1>
-//class Function<R(Arg1)>
-//{
-//};
-//
-//template <typename R, typename Arg1, typename Arg2>
-//class Function<R(Arg1, Arg2)>
-//{
-//};
-//
-//template <typename R, typename Arg1, typename Arg2, typename Arg3>
-//class Function<R(Arg1, Arg2, Arg3)>
-//{
-//};
-//
-//template <typename R, typename Arg1, typename Arg2, typename Arg3, typename Arg4>
-//class Function<R(Arg1, Arg2, Arg3, Arg4)>
-//{
-//};
 
+template <typename R, typename Arg1>
+class Function<R(Arg1)>
+{
+public:
+	class ICallable
+	{
+	public:
+		virtual ~ICallable() {}
+		virtual R Invoke(Arg1) = 0;
+		virtual R Invoke(Arg1) const = 0;
+	};
+
+	template <typename T>
+	class Callable : public ICallable
+	{
+	public:
+		Callable(T t) : m_t(t) {}
+		virtual ~Callable() {}
+		R Invoke(Arg1 a)
+		{
+			return m_t(a);
+		}
+		R Invoke(Arg1 a) const
+		{
+			return m_t(a);
+		}
+	private:
+		T m_t;
+	};
+
+	Function() : m_callable(NULL)
+	{
+	}
+
+	template <typename T>
+	Function(T t) : m_callable(new Callable<T>(t))
+	{
+	}
+
+	template <typename T>
+	Function &operator=(T t)
+	{
+		m_callable = new Callable<T>(t);
+		return *this;
+	}
+
+	R operator()(Arg1 a)
+	{
+		if (!m_callable)
+		{
+			throw std::exception();
+		}
+		return m_callable->Invoke(a);
+	}
+
+	R operator()(Arg1 a) const
+	{
+		if (!m_callable)
+		{
+			throw std::exception();
+		}
+		return m_callable->Invoke(a);
+	}
+private:
+	ICallable *m_callable;
+};
 #endif
