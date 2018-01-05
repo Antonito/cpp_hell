@@ -3,6 +3,14 @@
 #include <string>
 #include "Function.hpp"
 
+class Callable
+{
+public:
+	void operator()() {
+		std::cout << "Callable Object" << std::endl;
+	}
+};
+
 void zeroFunction()
 {
 	std::cout << "Hello World" << std::endl;
@@ -50,6 +58,14 @@ int main()
 	Function<double (std::string const &, int, double, double)> f2 = &fourFunction;
 	double resD = f4("Double", 5, 6, 14);
 	std::cout << "Res: " << resD << std::endl;
+
+	Function<int (std::string const &, int, int)> b1 = std::bind(&threeFunction, "Bind", std::placeholders::_1, std::placeholders::_2);
+	resI = b1(2, 3);
+	std::cout << "Res: " << resI << std::endl;
+
+	Callable callableObject;
+	Function<void ()> c1 = callableObject;
+	c1();
 
 	return EXIT_SUCCESS;
 }
