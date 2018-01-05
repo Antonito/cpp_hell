@@ -4,6 +4,12 @@
 template <typename R, typename Arg1 = void, typename Arg2 = void, typename Arg3 = void, typename Arg4 = void>
 struct FunctionSignature;
 
+template <typename T>
+struct _FunctionSignatureImpl
+{
+	typedef T type;
+};
+
 template <typename R>
 struct FunctionSignature<R()>
 {
