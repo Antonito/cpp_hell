@@ -38,6 +38,11 @@ public:
 	{
 	}
 
+	~Function()
+	{
+		delete m_callable;
+	}
+
 	template <typename T>
 	Function(T t) : m_callable(new Callable<T>(t))
 	{
@@ -51,6 +56,7 @@ public:
 	template <typename T>
 	Function &operator=(T t)
 	{
+		delete m_callable;
 		m_callable = new Callable<T>(t);
 		return *this;
 	}
