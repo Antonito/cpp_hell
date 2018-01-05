@@ -34,18 +34,24 @@ public:
 	}
 
 	template <typename T>
-	Function(T t) : m_callable(new Callable(t))
+	Function(T t) : m_callable(new Callable<T>(t))
 	{
 	}
 
 	template <typename T>
 	Function &operator=(T t)
 	{
-		if (!m_t)
+		m_callable = new Callable<T>(t);
+		return *this;
+	}
+
+	R operator()()
+	{
+		if (!m_callable)
 		{
 			throw std::exception();
 		}
-		return (*t)();
+		return m_callable->Invoke();
 	}
 private:
 	ICallable *m_callable;
