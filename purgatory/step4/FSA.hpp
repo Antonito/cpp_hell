@@ -32,9 +32,14 @@ public:
 	std::vector<std::string> move(std::vector<std::string> const &set, char c) const;
 	FSA subset() const;
 
+	std::string toDotFormat() const;
+
 private:
+	std::string getAlphabet() const;
 	std::map<std::string, State> m_state;
 	State *m_initial;
 };
+
+std::ostream &operator<<(std::ostream &os, FSA const &fsa);
 
 #endif // !FSA_HPP_

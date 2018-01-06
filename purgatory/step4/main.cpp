@@ -1,5 +1,7 @@
 #include <cstdlib>
 #include <iostream>
+#include <sstream>
+#include <fstream>
 #include "State.hpp"
 #include "FSA.hpp"
 #include "Matcher.hpp"
@@ -35,24 +37,60 @@ void testInputCount(Matcher &matcher, std::string const &str)
 	std::cout << std::endl;
 }
 
+std::string s(int n)
+{
+	std::stringstream ss;
+
+	ss << 'S' << n;
+	return ss.str();
+}
+
 int main()
 {
 	FSA fsa;
+	std::vector<std::string> words;
+	std::size_t fullLength = 0;
+
+	words.push_back("evil");
+	words.push_back("criminel");
+	words.push_back("mechant");
 
 	fsa.addInitial(State::create());
-	fsa.add(State::create());
-	fsa.add(State::create());
-	fsa.add(State::create());
+	for (std::size_t i = 0; i < words.size(); ++i)
+	{
+		fullLength += words[i].size() + 1;
+		for (std::size_t j = 0; j < words[i].length() + 1; ++j)
+		{
+			fsa.add(State::create());
+		}
+	}
 	fsa.add(State::create());
 
-	fsa["S0"].linkTo(fsa["S1"], 'e');
-	fsa["S1"].linkTo(fsa["S2"], 'v');
-	fsa["S2"].linkTo(fsa["S3"], 'i');
-	fsa["S3"].linkTo(fsa["S4"], 'l');
+	int n = 1;
 
-	fsa["S4"].setFinal(true);
+	for (std::size_t i = 0; i < words.size(); ++i)
+	{
+		fsa["S0"].lambdaLink(fsa[s(n)]);
+		for (std::size_t j = 0; j < words[i].length(); ++j)
+		{
+			fsa[s(n)].linkTo(fsa[s(n + 1)], words[i][j]);
+			++n;
+		}
+		fsa[s(n)].lambdaLink(fsa[s(fullLength + 1)]);
+		++n;
+	}
 
-	Matcher m(fsa);
+	std::ofstream file("graph.txt");
+
+	file << fsa;
+
+	FSA subset = fsa;
+
+	std::ofstream file2("graph2.txt");
+
+	file2 << subset;
+
+	Matcher m(subset);
 	std::size_t count;
 
 	testInput(m, "");

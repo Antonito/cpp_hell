@@ -4,25 +4,22 @@
 
 State::State() :
 	m_name(""),
-	m_final(false),
-	m_nextState(""),
-	m_charToNext('\0')
+	m_links(),
+	m_isLambda(false)
 {
 }
 
 State::State(std::string const &name) :
 	m_name(name),
-	m_final(false),
-	m_nextState(""),
-	m_charToNext('\0')
+	m_links(),
+	m_isLambda(false)
 {
 }
 
 State::State(State const &other) :
 	m_name(other.m_name),
-	m_final(other.m_final),
-	m_nextState(other.m_nextState),
-	m_charToNext(other.m_charToNext)
+	m_links(other.m_links),
+	m_isLambda(other.m_isLambda)
 {
 }
 
@@ -35,9 +32,8 @@ State &State::operator=(State const &other)
 	if (this != &other)
 	{
 		m_name = other.m_name;
-		m_final = other.m_final;
-		m_nextState = other.m_nextState;
-		m_charToNext = other.m_charToNext;
+		m_links = other.m_links;
+		m_isLambda = other.m_isLambda;
 	}
 	return *this;
 }
@@ -83,33 +79,100 @@ State State::create()
 
 void State::linkTo(State &s, char c)
 {
+	std::cout << m_name << " -> '" << c << "' -> " << s.name() << std::endl;
 	if (c == '\0')
 	{
 		std::cerr << "You cannot link over character '\\0'" << std::endl;
 		throw std::exception();
 	}
-	if (m_charToNext != '\0' && m_charToNext != c)
+	if (c == -1 && !m_isLambda)
 	{
-		std::cerr << "This state is already linked over an other letter ('" << m_charToNext << '\'' << std::endl;
+		std::cerr << "This link is not a lambda" << std::endl;
 		throw std::exception();
 	}
-	for (std::size_t i = 0; i < m_nextState.size(); ++i)
+	if (c != -1 && m_isLambda)
 	{
-		if (m_nextState[i] == s.name())
+		std::cerr << "State \"" << m_name << "\": This link is a lambda" << std::endl;
+		throw std::exception();
+	}
+
+	if (m_isLambda == false)
+	{
+		for (std::size_t i = 0; i < m_links.size(); ++i)
 		{
-			return ;
+			if (m_links[i].first == c)
+			{
+				std::cerr << "State \"" << m_name << "\": This edge ('" << c << "') is already attributed" << std::endl;
+				throw std::exception();
+			}
 		}
 	}
-	m_nextState.push_back(s.name());
-	m_charToNext = c;
+	m_links.push_back(std::make_pair(c, s.name()));
+}
+
+bool State::has(char link) const
+{
+	for (std::size_t i = 0; i < m_links.size(); ++i)
+	{
+		if (m_links[i].first == link)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+std::string const &State::operator[](char c) const
+{
+	for (std::size_t i = 0; i < m_links.size(); ++i)
+	{
+		if (m_links[i].first == c)
+		{
+			return m_links[i].second;
+		}
+	}
+	std::cerr << "State \"" << m_name << "\": There is no edge ('" << c << "')" << std::endl;
+	throw std::exception();
 }
 
 void State::lambdaLink(State &s)
 {
-	this->linkTo(s, -1);
+	if (m_links.empty())
+	{
+		m_isLambda = true;
+	}
+ 	this->linkTo(s, -1);
 }
 
-bool State::isLambda() const
+std::vector<std::pair<char, std::string> > const &State::getLinks() const
 {
-	return m_charToNext == -1;
+	return m_links;
+}
+
+std::vector<std::string> State::getLinkedStates() const
+{
+	std::vector<std::string> res;
+
+	res.reserve(m_links.size());
+
+	for (std::size_t i = 0; i < m_links.size(); ++i)
+	{
+		res.push_back(m_links[i].second);
+	}
+
+	return res;
+}
+
+std::vector<char> State::getLinkLetters() const
+{
+	std::vector<char> res;
+
+	res.reserve(m_links.size());
+
+	for (std::size_t i = 0; i < m_links.size(); ++i)
+	{
+		res.push_back(m_links[i].first);
+	}
+
+	return res;
 }

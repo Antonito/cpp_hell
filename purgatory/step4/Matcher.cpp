@@ -6,29 +6,26 @@ Matcher::Matcher(FSA &fsa) : m_fsa(fsa)
 
 bool Matcher::find(std::string const &str)
 {
-	State *state = m_fsa.initial();
-
-	if (!state)
+	if (!m_fsa.initial())
 	{
 		return false;
 	}
 
+	std::string state = m_fsa.initial()->name();
+
 	for (std::size_t pos = 0; pos < str.length(); ++pos)
 	{
-		if (state->getLinkLetter() == str[pos])
-		{
-			state = state->getLink();
+		State const &s = m_fsa[state];
 
-			if (!state)
-			{
-				state = m_fsa.initial();
-			}
+		if (s.has(str[pos]))
+		{
+			state = s[str[pos]];
 		}
 		else
 		{
-			state = m_fsa.initial();
+			state = m_fsa.initial()->name();
 		}
-		if (state->isFinal())
+		if (s.isFinal())
 		{
 			return true;
 		}
@@ -38,35 +35,32 @@ bool Matcher::find(std::string const &str)
 
 bool Matcher::find(std::string const &str, std::size_t &count)
 {
-	State *state = m_fsa.initial();
-	bool found = false;
-	
 	count = 0;
 
-	if (!state)
+	if (!m_fsa.initial())
 	{
 		return false;
 	}
 
+	std::string state = m_fsa.initial()->name();
+	bool found = false;
+
 	for (std::size_t pos = 0; pos < str.length(); ++pos)
 	{
-		if (state->getLinkLetter() == str[pos])
-		{
-			state = state->getLink();
+		State const &s = m_fsa[state];
 
-			if (!state)
-			{
-				state = m_fsa.initial();
-			}
+		if (s.has(str[pos]))
+		{
+			state = s[str[pos]];
 		}
 		else
 		{
-			state = m_fsa.initial();
+			state = m_fsa.initial()->name();
 		}
-		if (state->isFinal())
+		if (s.isFinal())
 		{
+			++count;
 			found = true;
-			count++;
 		}
 	}
 	return found;
