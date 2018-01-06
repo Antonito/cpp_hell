@@ -41,9 +41,9 @@ void memberTest()
 	std::cout << "-- Static method --\n";
 	bind(&Foo::sayHello)();
 	std::cout << "-- Non const method, no parameter --\n";
-	bind(&Foo::addTwo, foo)();
+	bind(&Foo::addTwo, &foo)();
 	std::cout << "-- Non const method, parameter --\n";
-	//bind(&Foo::addParam, foo, 5)();
+	bind(&Foo::addParam, &foo, 5)();
 	std::cout << "-- Const method --\n";
-	//std::cout << bind(&Foo::getValue, foo)();
+	//std::cout << bind(&Foo::getValue, &foo)();
 }

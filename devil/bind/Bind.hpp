@@ -5,6 +5,7 @@
 #include "TypeTraits.hpp"
 #include "TypeList.hpp"
 #include "Traits.hpp"
+#include "MethodPointer.hpp"
 
 template <typename ReturnType>
 Caller<ReturnType, ReturnType(*)(void),
@@ -15,6 +16,18 @@ Caller<ReturnType, ReturnType(*)(void),
 
 	ListType list;
 	return Caller<ReturnType, ReturnType(*)(void), ListType>(func, list);
+}
+
+template <typename ReturnType, class ClassType>
+Caller<ReturnType, MethodPointer<ClassType, ReturnType(ClassType::*)()>,
+	typename Traits0::type>
+	bind(ReturnType (ClassType::*func)(), ClassType *ptr)
+{
+	typedef TypeList0 ListType;
+	typedef MethodPointer<ClassType, ReturnType(ClassType::*)()> MethodPtr;
+
+	ListType list;
+	return Caller<ReturnType, MethodPtr, ListType>(MethodPtr(ptr, func), list);
 }
 
 template <typename ReturnType, typename X1, typename Param1>
