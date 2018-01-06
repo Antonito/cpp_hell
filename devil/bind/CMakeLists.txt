@@ -12,6 +12,6 @@ SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS}")
 endif()
 
 # Get log library files
-file(GLOB SOURCES main.cpp)
+file(GLOB SOURCES main.cpp SimpleTest.cpp MemberTest.cpp)
 set(TEST_BIND test_bind)
 add_executable(${TEST_BIND} ${SOURCES})

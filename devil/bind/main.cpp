@@ -1,17 +1,9 @@
-#include <iostream>
-#include <string>
-
-#include "Bind.hpp"
-
-void threeParams(std::string const &str, int a, int b)
-{
-	std::cout << str << ": " <<  a + b << std::endl;
-}
+void simpleTest();
+void memberTest();
 
 int main()
 {
-	std::string s1 = "Hello";
-
-	bind(&threeParams, s1, 1, 2)();
+	simpleTest();
+	memberTest();
 	return 0;
 }
