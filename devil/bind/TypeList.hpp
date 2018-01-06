@@ -15,7 +15,8 @@ public:
 	}
 
 	template <typename T>
-	T &operator[](Value<T> &value) {
+	T &operator[](Value<T> &value) const
+	{
 		return value.get();
 	}
 
@@ -31,12 +32,13 @@ class TypeList1 : private Storage1<T1>
 public:
 	typedef Storage1<T1> BaseClass;
 	
-	TypeList1(T1 t1) : BaseClass(t1)
+	TypeList1(T1 const &t1) : BaseClass(t1)
 	{
 	}
 
 	template <typename T>
-	T &operator[](Value<T> &value) {
+	T &operator[](Value<T> &value) const
+	{
 		return value.get();
 	}
 
@@ -52,12 +54,13 @@ class TypeList2 : private Storage2<T1, T2>
 public:
 	typedef Storage2<T1, T2> BaseClass;
 	
-	TypeList2(T1 t1, T2 t2) : BaseClass(t1, t2)
+	TypeList2(T1 const &t1, T2 const &t2) : BaseClass(t1, t2)
 	{
 	}
 
 	template <typename T>
-	T &operator[](Value<T> &value) {
+	T &operator[](Value<T> &value) const
+	{
 		return value.get();
 	}
 
@@ -74,12 +77,13 @@ class TypeList3 : private Storage3<T1, T2, T3>
 public:
 	typedef Storage3<T1, T2, T3> BaseClass;
 	
-	TypeList3(T1 t1, T2 t2, T3 t3) : BaseClass(t1, t2, t3)
+	TypeList3(T1 const &t1, T2 const &t2, T3 const &t3) : BaseClass(t1, t2, t3)
 	{
 	}
 
 	template <typename T>
-	T &operator[](Value<T> &value) {
+	T &operator[](Value<T> &value) const
+	{
 		return value.get();
 	}
 
@@ -97,12 +101,14 @@ class TypeList4 : private Storage4<T1, T2, T3, T4>
 public:
 	typedef Storage4<T1, T2, T3, T4> BaseClass;
 	
-	TypeList4(T1 t1, T2 t2, T3 t3, T4 t4) : BaseClass(t1, t2, t3, t4)
+	TypeList4(T1 const &t1, T2 const &t2, T3 const &t3, T4 const &t4) :
+		BaseClass(t1, t2, t3, t4)
 	{
 	}
 
 	template <typename T>
-	T &operator[](Value<T> &value) {
+	T &operator[](Value<T> &value) const
+	{
 		return value.get();
 	}
 
@@ -120,13 +126,14 @@ class TypeList5 : private Storage5<T1, T2, T3, T4, T5>
 public:
 	typedef Storage5<T1, T2, T3, T4, T5> BaseClass;
 
-	TypeList5(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5) :
-		BaseClass(t1, t2, t3, t4, t5)
+	TypeList5(T1 const &t1, T2 const &t2, T3 const &t3, T4 const &t4,
+			T5 const &t5) : BaseClass(t1, t2, t3, t4, t5)
 	{
 	}
 
 	template <typename T>
-	T &operator[](Value<T> &value) {
+	T &operator[](Value<T> &value) const
+	{
 		return value.get();
 	}
 
@@ -145,13 +152,15 @@ class TypeList6 : private Storage6<T1, T2, T3, T4, T5, T6>
 public:
 	typedef Storage6<T1, T2, T3, T4, T5, T6> BaseClass;
 
-	TypeList6(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6) :
+	TypeList6(T1 const &t1, T2 const &t2, T3 const &t3, T4 const &t4,
+			T5 const &t5, T6 const &t6) :
 		BaseClass(t1, t2, t3, t4, t5, t6)
 	{
 	}
 
 	template <typename T>
-	T &operator[](Value<T> &value) {
+	T &operator[](Value<T> &value) const
+	{
 		return value.get();
 	}
 

@@ -5,7 +5,7 @@ template <typename T>
 class Value
 {
 public:
-	Value(T &param) : _param(param)
+	Value(T const &param) : _param(param)
 	{
 	}
 
