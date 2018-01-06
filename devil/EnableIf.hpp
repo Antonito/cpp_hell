@@ -4,7 +4,7 @@
 template <bool C, typename T = void *>
 struct enable_if
 {
-	typedef T value;
+	typedef T type;
 };
 
 template <typename T>

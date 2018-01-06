@@ -21,7 +21,7 @@ int main ()
 	std::cout << "test        -> " << is_printable<std::ostream, test>::Value << std::endl;
 	std::cout << "lol         -> " << is_printable<std::ostream, lol>::Value << std::endl;
 	std::cout << "std::string -> " << is_printable<std::ostream, std::string>::Value << std::endl;
-#else
+//#else
 	inspect(t);
 	inspect(str);
 	inspect(l);

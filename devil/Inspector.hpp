@@ -1,7 +1,9 @@
 #ifndef INSPECTOR_HPP_
 #define INSPECTOR_HPP_
 
-template<typename T, typename U>
+#include "EnableIf.hpp"
+
+template<typename S, typename O>
 class is_printable
 {
 private:
@@ -14,13 +16,35 @@ private:
 	};
 
 	template<typename C>
-	static yes &isPrintable(typename IsPrintableWrap<sizeof((*reinterpret_cast<T *>(NULL)) << (*reinterpret_cast<C *>(NULL)))>::value value);
+	static yes &isPrintable(typename IsPrintableWrap<sizeof((*reinterpret_cast<S *>(NULL)) << (*reinterpret_cast<C *>(NULL)))>::value value);
 
 	template <typename>
 	static no &isPrintable(...);
 
 public:
-	enum { Value = sizeof(isPrintable<U>(NULL)) == sizeof(yes) };
+	enum { Value = sizeof(isPrintable<O>(NULL)) == sizeof(yes) };
 };
+
+template<typename S>
+struct PrintImpl
+{
+	template<typename O>
+	static void print(S &stream, O const &object, typename enable_if<is_printable<S, O>::Value>::type = 0)
+	{
+		stream << object << std::endl;
+	}
+
+	template<typename O>
+	static void print(S &stream, O const &object, typename enable_if<!is_printable<S, O>::Value>::type = 0)
+	{
+		stream << typeid(object).name() << std::endl;
+	}
+};
+
+template<typename O>
+void inspect(O const &object)
+{
+	PrintImpl<std::ostream>::print(std::cout, object);
+}
 
 #endif
