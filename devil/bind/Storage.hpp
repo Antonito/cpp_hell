@@ -1,11 +1,15 @@
 #ifndef STORAGE_HPP_
 #define STORAGE_HPP_
 
+struct Storage0
+{
+};
+
 template <typename T1>
-struct Storage1
+struct Storage1 : public Storage0
 {
 	Storage(T1 const &t1) :
-		_t1(t1)
+		Storage0(), _t1(t1)
 	{
 	}
 
