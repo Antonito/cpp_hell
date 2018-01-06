@@ -13,11 +13,6 @@ static void printParameters(std::ostream &stream, std::string const &p1,
 	"P5: " << p5 << std::endl;
 }
 
-void printInt(int i)
-{
-	std::cout << i << std::endl;
-}
-
 void placeholderTest()
 {
 	std::string const str = "Hello";
