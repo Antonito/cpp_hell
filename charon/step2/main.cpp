@@ -60,9 +60,11 @@ int main()
 	double resD = f4("Double", 5, 6, 14);
 	std::cout << "Res: " << resD << std::endl;
 
+#if __cplusplus >= 201103L
 	Function<int (int, int)> b1 = std::bind(&threeFunction, "Bind", std::placeholders::_1, std::placeholders::_2);
 	resI = b1(2, 3);
 	std::cout << "Res: " << resI << std::endl;
+#endif
 
 	Callable callableObject;
 	Function<void ()> c1 = callableObject;
