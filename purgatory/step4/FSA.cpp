@@ -1,4 +1,7 @@
 #include <queue>
+#include <algorithm>
+#include <sstream>
+#include <iostream>
 #include "FSA.hpp"
 
 FSA::FSA() :
@@ -52,7 +55,7 @@ std::vector<std::string> FSA::closure(std::string const &name) const
 
 			if (t.isLambda())
 			{
-				std::vector<std::string> tmp = t.getLinks();
+				std::vector<std::string> tmp = t.getLinkedStates();
 
 				for (std::size_t j = 0; j < tmp.size(); ++j)
 				{
@@ -88,7 +91,7 @@ std::vector<std::string> FSA::closure(std::vector<std::string> const &set) const
 
 				if (t.isLambda())
 				{
-					std::vector<std::string> tmp = t.getLinks();
+					std::vector<std::string> tmp = t.getLinkedStates();
 
 					for (std::size_t j = 0; j < tmp.size(); ++j)
 					{
@@ -110,13 +113,13 @@ std::vector<std::string> FSA::move(std::vector<std::string> const &set, char c) 
 {
 	std::vector<std::string> res;
 
-	for (std::size_t i = 0; i < res.size(); ++i)
+	for (std::size_t i = 0; i < set.size(); ++i)
 	{
-		State const &s = m_state.at(res[i]);
+		State const &s = m_state.at(set[i]);
 
-		if (s.isLambda() == false && s.getLinkLetter() == c)
+		if (s.isLambda() == false && s.has(c))
 		{
-			std::string const &link = s.getLinks()[0];
+			std::string const &link = s[c];
 
 			if (std::find(res.begin(), res.end(), link) == res.end())
 			{
@@ -129,17 +132,21 @@ std::vector<std::string> FSA::move(std::vector<std::string> const &set, char c) 
 	return res;
 }
 
-FSA FSA::subset() const
+FSA *FSA::subset() const
 {
-	std::vector<std::vector<std::string>> dfaStates;
+	std::vector<State> dfaStates;
+	std::vector<std::vector<std::string> > dfaSets;
 	std::vector<std::string> initial = this->closure(m_initial->name());
-	std::queue<std::vector<std::string>> processing;
-	std::string alphabet = "evil";
+	std::queue<std::vector<std::string> > processing;
+	std::string alphabet = this->getAlphabet();
 
 	processing.push(initial);
+	dfaSets.push_back(initial);
+	dfaStates.push_back(State::create());
 	while (processing.size() != 0)
 	{
 		std::vector<std::string> current = processing.front();
+		std::size_t curPos = std::find(dfaSets.begin(), dfaSets.end(), current) - dfaSets.begin();
 
 		processing.pop();
 
@@ -147,7 +154,108 @@ FSA FSA::subset() const
 		{
 			std::vector<std::string> state = this->move(current, alphabet[i]);
 
+			if (state.size() == 0)
+			{
+				continue;
+			}
+
 			std::vector<std::string> closure = this->closure(state);
+
+			if (closure.size() == 0)
+			{
+				continue;
+			}
+
+			std::vector<std::vector<std::string> >::iterator found =
+				std::find(dfaSets.begin(), dfaSets.end(), closure);
+			std::size_t foundPos = found - dfaSets.begin();
+
+			if (found == dfaSets.end())
+			{
+				dfaSets.push_back(closure);
+				dfaStates.push_back(State::create());
+				processing.push(closure);
+			}
+
+			dfaStates[curPos].linkTo(dfaStates[foundPos], alphabet[i]);
 		}
 	}
+
+	FSA *res = new FSA();
+
+	res->addInitial(dfaStates[0]);
+	for (std::size_t i = 1; i < dfaStates.size(); ++i)
+	{
+		res->add(dfaStates[i]);
+	}
+
+	return res;
+}
+
+std::string FSA::toDotFormat() const
+{
+	std::stringstream ss;
+
+	ss << "digraph {\n";
+	
+	for (std::map<std::string, State>::const_iterator it = m_state.begin();
+		it != m_state.end(); ++it)
+	{
+		std::vector<std::pair<char, std::string> > const &links = it->second.getLinks();
+
+		if (it != m_state.begin())
+		{
+			ss << '\n';
+		}
+
+		if (it->second.isFinal())
+		{
+			ss << '\t' << it->second.name() << "[fillcolor=red style=filled];\n";
+		}
+
+		for (std::size_t i = 0; i < links.size(); ++i)
+		{
+			ss << '\t' << it->second.name() << " -> " << links[i].second << " [label=";
+			if (links[i].first != -1)
+			{
+				ss << links[i].first;
+			}
+			else
+			{
+				ss << "LAMBDA";
+			}
+			ss << "];\n";
+		}
+	}
+
+	ss << '}';
+	return ss.str();
+}
+
+std::string FSA::getAlphabet() const
+{
+	std::string alphabet;
+
+	for (std::map<std::string, State>::const_iterator it = m_state.begin(); it != m_state.end(); ++it)
+	{
+		std::vector<char> l = it->second.getLinkLetters();
+
+		for (std::size_t i = 0; i < l.size(); ++i)
+		{
+			if (l[i] > 0 && std::find(alphabet.begin(), alphabet.end(), l[i]) == alphabet.end())
+			{
+				alphabet += l[i];
+			}
+		}
+	}
+
+	std::sort(alphabet.begin(), alphabet.end());
+	return alphabet;
+}
+
+std::ostream & operator<<(std::ostream & os, FSA const & fsa)
+{
+	os << fsa.toDotFormat();
+
+	return os;
 }

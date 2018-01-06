@@ -2,6 +2,7 @@
 #define STATE_HPP_
 
 #include <string>
+#include <map>
 #include <vector>
 
 class State
@@ -26,7 +27,17 @@ public:
 	void linkTo(State &s, char c);
 	void lambdaLink(State &s);
 
-	bool isLambda() const;
+	bool has(char link) const;
+	std::string const &operator[](char c) const;
+
+	std::vector<std::pair<char, std::string> > const &getLinks() const;
+	std::vector<std::string> getLinkedStates() const;
+	std::vector<char> getLinkLetters() const;
+
+	bool isLambda() const
+	{
+		return m_isLambda;
+	}
 
 	std::string const &name() const
 	{
@@ -35,29 +46,13 @@ public:
 
 	bool isFinal() const
 	{
-		return m_final;
-	}
-
-	void setFinal(bool isFinal)
-	{
-		m_final = isFinal;
-	}
-
-	std::vector<std::string> const &getLinks() const
-	{
-		return m_nextState;
-	}
-
-	char getLinkLetter() const
-	{
-		return m_charToNext;
+		return m_links.size() == 0;
 	}
 
 private:
 	std::string m_name;
-	bool m_final;
-	std::vector<std::string> m_nextState;
-	char m_charToNext;
+	std::vector<std::pair<char, std::string> > m_links;
+	bool m_isLambda;
 };
 
 #endif // !STATE_HPP_
