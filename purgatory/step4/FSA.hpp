@@ -30,7 +30,7 @@ public:
 	std::vector<std::string> closure(std::string const &name) const;
 	std::vector<std::string> closure(std::vector<std::string> const &set) const;
 	std::vector<std::string> move(std::vector<std::string> const &set, char c) const;
-	FSA subset() const;
+	FSA *subset() const;
 
 	std::string toDotFormat() const;
 

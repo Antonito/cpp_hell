@@ -47,67 +47,72 @@ std::string s(int n)
 
 int main()
 {
-	FSA fsa;
+	FSA nfa;
 	std::vector<std::string> words;
 	std::size_t fullLength = 0;
 
 	words.push_back("evil");
+	words.push_back("evian");
 	words.push_back("criminel");
 	words.push_back("mechant");
 
-	fsa.addInitial(State::create());
+	nfa.addInitial(State::create());
 	for (std::size_t i = 0; i < words.size(); ++i)
 	{
 		fullLength += words[i].size() + 1;
 		for (std::size_t j = 0; j < words[i].length() + 1; ++j)
 		{
-			fsa.add(State::create());
+			nfa.add(State::create());
 		}
 	}
-	fsa.add(State::create());
+	nfa.add(State::create());
 
 	int n = 1;
 
 	for (std::size_t i = 0; i < words.size(); ++i)
 	{
-		fsa["S0"].lambdaLink(fsa[s(n)]);
+		nfa["S0"].lambdaLink(nfa[s(n)]);
 		for (std::size_t j = 0; j < words[i].length(); ++j)
 		{
-			fsa[s(n)].linkTo(fsa[s(n + 1)], words[i][j]);
+			nfa[s(n)].linkTo(nfa[s(n + 1)], words[i][j]);
 			++n;
 		}
-		fsa[s(n)].lambdaLink(fsa[s(fullLength + 1)]);
+		nfa[s(n)].lambdaLink(nfa[s(fullLength + 1)]);
 		++n;
 	}
 
-	std::ofstream file("graph.txt");
+	std::ofstream file("nfa.txt");
 
-	file << fsa;
+	file << nfa;
 
-	FSA subset = fsa;
+	FSA *dfa = nfa.subset();
 
-	std::ofstream file2("graph2.txt");
+	std::ofstream file2("dfa.txt");
 
-	file2 << subset;
+	file2 << dfa;
 
-	Matcher m(subset);
+
+	Matcher m(*dfa);
 	std::size_t count;
 
 	testInput(m, "");
 	testInput(m, "evil is at the beggining");
-	testInput(m, "the end is evil");
-	testInput(m, "evil is at the beggining and the end is evil");
-	testInput(m, "the evil within the input");
+	testInput(m, "the end is criminel");
+	testInput(m, "mechant is at the beggining and the end is evil");
+	testInput(m, "the evil within");
 	testInput(m, "nothing malicious here");
 	testInput(m, "is Evil found ?");
 	testInputCount(m, "");
 	testInputCount(m, "evil is at the beggining");
-	testInputCount(m, "the end is evil");
-	testInputCount(m, "evil is at the beggining and the end is evil");
-	testInputCount(m, "the evil within the input");
+	testInputCount(m, "the end is mechant");
+	testInputCount(m, "evian is at the beggining and the end is evil");
+	testInputCount(m, "the evil within");
 	testInputCount(m, "nothing malicious here");
 	testInputCount(m, "is Evil found ?");
-	testInputCount(m, "The evil devil is evil like maybe 3 or 4 time, if he's really evil");
+	testInputCount(m, "The criminel devil is evil like maybe 3 or 4 time, if he's really mechant");
+	testInputCount(m, "is Evil found ? No, but criminel or evian...");
+
+	delete dfa;
 
 	return EXIT_SUCCESS;
 }

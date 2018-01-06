@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Matcher.hpp"
 
 Matcher::Matcher(FSA &fsa) : m_fsa(fsa)
@@ -20,12 +21,12 @@ bool Matcher::find(std::string const &str)
 		if (s.has(str[pos]))
 		{
 			state = s[str[pos]];
-		}
+		} 
 		else
 		{
 			state = m_fsa.initial()->name();
 		}
-		if (s.isFinal())
+		if (m_fsa[state].isFinal())
 		{
 			return true;
 		}
@@ -57,10 +58,11 @@ bool Matcher::find(std::string const &str, std::size_t &count)
 		{
 			state = m_fsa.initial()->name();
 		}
-		if (s.isFinal())
+		if (m_fsa[state].isFinal())
 		{
 			++count;
 			found = true;
+			state = m_fsa.initial()->name();
 		}
 	}
 	return found;

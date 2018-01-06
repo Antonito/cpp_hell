@@ -79,7 +79,6 @@ State State::create()
 
 void State::linkTo(State &s, char c)
 {
-	std::cout << m_name << " -> '" << c << "' -> " << s.name() << std::endl;
 	if (c == '\0')
 	{
 		std::cerr << "You cannot link over character '\\0'" << std::endl;

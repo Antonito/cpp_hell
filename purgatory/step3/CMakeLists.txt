@@ -2,7 +2,7 @@
 ## Configuration
 ##
 cmake_minimum_required(VERSION 3.1)
-project(test_fsa)
+project(test_dynamic_fsa)
 
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
 
@@ -13,5 +13,5 @@ endif()
 
 # Get log library files
 file(GLOB SOURCES main.cpp State.cpp FSA.cpp Matcher.cpp)
-set(TEST_FSA test_fsa)
-add_executable(${TEST_FSA} ${SOURCES})
+set(TEST_DYNAMIC_FSA test_dynamic_fsa)
+add_executable(${TEST_DYNAMIC_FSA} ${SOURCES})

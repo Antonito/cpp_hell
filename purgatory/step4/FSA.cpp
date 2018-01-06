@@ -1,6 +1,7 @@
 #include <queue>
 #include <algorithm>
 #include <sstream>
+#include <iostream>
 #include "FSA.hpp"
 
 FSA::FSA() :
@@ -112,9 +113,9 @@ std::vector<std::string> FSA::move(std::vector<std::string> const &set, char c) 
 {
 	std::vector<std::string> res;
 
-	for (std::size_t i = 0; i < res.size(); ++i)
+	for (std::size_t i = 0; i < set.size(); ++i)
 	{
-		State const &s = m_state.at(res[i]);
+		State const &s = m_state.at(set[i]);
 
 		if (s.isLambda() == false && s.has(c))
 		{
@@ -131,7 +132,7 @@ std::vector<std::string> FSA::move(std::vector<std::string> const &set, char c) 
 	return res;
 }
 
-FSA FSA::subset() const
+FSA *FSA::subset() const
 {
 	std::vector<State> dfaStates;
 	std::vector<std::vector<std::string> > dfaSets;
@@ -140,6 +141,8 @@ FSA FSA::subset() const
 	std::string alphabet = this->getAlphabet();
 
 	processing.push(initial);
+	dfaSets.push_back(initial);
+	dfaStates.push_back(State::create());
 	while (processing.size() != 0)
 	{
 		std::vector<std::string> current = processing.front();
@@ -150,7 +153,18 @@ FSA FSA::subset() const
 		for (std::size_t i = 0; i < alphabet.length(); ++i)
 		{
 			std::vector<std::string> state = this->move(current, alphabet[i]);
+
+			if (state.size() == 0)
+			{
+				continue;
+			}
+
 			std::vector<std::string> closure = this->closure(state);
+
+			if (closure.size() == 0)
+			{
+				continue;
+			}
 
 			std::vector<std::vector<std::string> >::iterator found =
 				std::find(dfaSets.begin(), dfaSets.end(), closure);
@@ -167,12 +181,12 @@ FSA FSA::subset() const
 		}
 	}
 
-	FSA res;
+	FSA *res = new FSA();
 
-	res.addInitial(dfaStates[0]);
+	res->addInitial(dfaStates[0]);
 	for (std::size_t i = 1; i < dfaStates.size(); ++i)
 	{
-		res.add(dfaStates[i]);
+		res->add(dfaStates[i]);
 	}
 
 	return res;
@@ -236,7 +250,6 @@ std::string FSA::getAlphabet() const
 	}
 
 	std::sort(alphabet.begin(), alphabet.end());
-
 	return alphabet;
 }
 
