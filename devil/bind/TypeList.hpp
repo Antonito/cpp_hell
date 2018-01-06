@@ -3,6 +3,7 @@
 
 #include "Value.hpp"
 #include "Storage.hpp"
+#include "TypeTraits.hpp"
 
 class TypeList0 : private Storage0
 {
@@ -21,16 +22,22 @@ class TypeList2 : private Storage2<T1, T2>
 template <typename T1, typename T2, typename T3>
 class TypeList3 : private Storage3<T1, T2, T3>
 {
+	typedef Storage3<T1, T2, T3> BaseClass;
+	
+	TypeList3(T1 t1, T2 t2, T3 t3) : BaseClass(t1, t2, t3)
+	{
+	}
+
 	template <typename T>
-	T &operator[](Value<T> const &value) {
+	T &operator[](Value<T> &value) {
 		return value.get();
 	}
 
-	template<typename ReturnType, typename Callable>
-	ReturnType operator()(TypeTraits<ReturnType>, Callable call, TypeList3<T1, T2, T3> list) {
-		return call(list[TypeList<T1, T2, T3>::_t1], 
-				list[TypeList<T1, T2, T3>::_t2], 
-				list[TypeList<T1, T2, T3>::_t3]);
+	template<typename ReturnType, typename Callable, typename List>
+	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &list) {
+		return call(list[BaseClass::_t1], 
+				list[BaseClass::_t2], 
+				list[BaseClass::_t3]);
 	}
 };
 
