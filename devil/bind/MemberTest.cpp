@@ -58,6 +58,43 @@ public:
 		return _value;
 	}
 
+	void showParamOne(std::string const &str) const
+	{
+		std::cout << str << std::endl;
+	}
+
+	void showParamTwo(std::string const &str, int nb) const
+	{
+		std::cout << str << nb << std::endl;
+	}
+
+	void showParamThree(std::string const &str, int nb, double nb2) const
+	{
+		std::cout << str << nb << ' ' << nb2 << std::endl;
+	}
+
+	void showParamFour(std::string const &str, int nb, double nb2,
+				void const *nb3) const
+	{
+		std::cout << str << nb << ' ' << nb2 <<
+		' ' << nb3 << std::endl;
+	}
+
+	void showParamFive(std::string const &str, int nb, double nb2,
+				void const *nb3, char nb4) const
+	{
+		std::cout << str << nb << ' ' << nb2 <<
+		' ' << nb3 << ' ' << nb4 << std::endl;
+	}
+
+	void showParamSix(std::string const &str, int nb, double nb2,
+				void const *nb3, char nb4,
+				char const *str2) const
+	{
+		std::cout << str << nb << ' ' << nb2 <<
+		' ' << nb3 << ' ' << nb4 << ' ' << str2 << std::endl;
+	}
+
 	static void sayHello() 
 	{
 		std::cout << "Hello from static method" << std::endl;
@@ -90,15 +127,23 @@ static void memberTestNonConst()
 static void memberTestConst()
 {
 	Foo const foo(5);
+	std::string const str = "Hello -> ";
+	void const *ptr = reinterpret_cast<void const *>(0xDEADBEEF);
 
 	std::cout << "-- Const method, no parameter --\n";
 	std::cout << bind(&Foo::getValue, &foo)() << '\n';
 	std::cout << "-- Const method, 1 parameter --\n";
+	bind(&Foo::showParamOne, &foo, str)();
 	std::cout << "-- Const method, 2 parameter --\n";
+	bind(&Foo::showParamTwo, &foo, str, 42)();
 	std::cout << "-- Const method, 3 parameter --\n";
+	bind(&Foo::showParamThree, &foo, str, 42, 1.2345)();
 	std::cout << "-- Const method, 4 parameter --\n";
+	bind(&Foo::showParamFour, &foo, str, 42, 1.2345, ptr)();
 	std::cout << "-- Const method, 5 parameter --\n";
+	bind(&Foo::showParamFive, &foo, str, 42, 1.2345, ptr, '*')();
 	std::cout << "-- Const method, 6 parameter --\n";
+	bind(&Foo::showParamSix, &foo, str, 42, 1.2345, ptr, '*', "|| :) ")();
 }
 
 void memberTest()
