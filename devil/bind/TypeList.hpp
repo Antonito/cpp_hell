@@ -22,6 +22,7 @@ class TypeList2 : private Storage2<T1, T2>
 template <typename T1, typename T2, typename T3>
 class TypeList3 : private Storage3<T1, T2, T3>
 {
+public:
 	typedef Storage3<T1, T2, T3> BaseClass;
 	
 	TypeList3(T1 t1, T2 t2, T3 t3) : BaseClass(t1, t2, t3)

@@ -10,6 +10,8 @@ void threeParams(std::string const &str, int a, int b)
 
 int main()
 {
-	bind(&threeParams, "Hello", 1, 2)();
+	std::string s1 = "Hello";
+
+	bind(&threeParams, s1, 1, 2)();
 	return 0;
 }

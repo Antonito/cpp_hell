@@ -2,6 +2,7 @@
 #define CALLER_HPP_
 
 #include "TypeTraits.hpp"
+#include "TypeList.hpp"
 
 template <typename ReturnType, typename Callable, typename List>
 class Caller
@@ -20,7 +21,7 @@ public:
 		typedef TypeList3<P1, P2, P3> ListType;
 
 		ListType arguments(t1, t2, t3);
-		return _list(TypeTraits<ReturnType>(), _callable, _list, arguments);
+		return _list(TypeTraits<ReturnType>(), _callable, arguments);
 	}
 
 private:

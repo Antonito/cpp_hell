@@ -5,6 +5,10 @@ template <typename T>
 class Value
 {
 public:
+	Value(T &param) : _param(param)
+	{
+	}
+
 	T &get()
 	{
 		return _param;
