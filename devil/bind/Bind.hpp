@@ -6,6 +6,7 @@
 #include "TypeList.hpp"
 #include "Traits.hpp"
 #include "MethodPointer.hpp"
+#include "ReferenceWrapper.hpp"
 
 template <typename ReturnType>
 Caller<ReturnType, ReturnType(*)(void),
