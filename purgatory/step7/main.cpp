@@ -7,14 +7,14 @@
 #include "Matcher.hpp"
 #include "ExpressionParser.hpp"
 
-void testInput(Matcher &matcher, std::string const &str)
+static void testInput(Matcher &matcher, std::string const &str)
 {
 	std::cout << "Input: \"" << str << "\"\n";
 
 	matcher.find(str);
 }
 
-std::string s(int n)
+static std::string s(int n)
 {
 	std::stringstream ss;
 
@@ -22,7 +22,7 @@ std::string s(int n)
 	return ss.str();
 }
 
-void printTheTokenAndMore(std::string const &token)
+static void printTheTokenAndMore(std::string const &token)
 {
 	std::cout << "The token \"" << token << "\" was found !" << std::endl;
 }

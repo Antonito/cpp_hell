@@ -7,7 +7,7 @@
 #include "Matcher.hpp"
 #include "ExpressionParser.hpp"
 
-void testInput(Matcher &matcher, std::string const &str)
+static void testInput(Matcher &matcher, std::string const &str)
 {
 	std::size_t count;
 

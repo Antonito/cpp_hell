@@ -7,7 +7,7 @@
 #include "Matcher.hpp"
 #include "ExpressionParser.hpp"
 
-void testInput(Matcher &matcher, std::string const &str)
+static void testInput(Matcher &matcher, std::string const &str)
 {
 	std::cout << "Input: \"" << str << "\"\n";
 
@@ -22,7 +22,7 @@ void testInput(Matcher &matcher, std::string const &str)
 	std::cout << std::endl;
 }
 
-void testInputCount(Matcher &matcher, std::string const &str)
+static void testInputCount(Matcher &matcher, std::string const &str)
 {
 	std::size_t count;
 	std::cout << "Input: \"" << str << "\"\n";
@@ -38,7 +38,7 @@ void testInputCount(Matcher &matcher, std::string const &str)
 	std::cout << std::endl;
 }
 
-std::string s(int n)
+static std::string s(int n)
 {
 	std::stringstream ss;
 

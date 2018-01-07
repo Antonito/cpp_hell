@@ -4,7 +4,7 @@
 #include "FSA.hpp"
 #include "Matcher.hpp"
 
-void testInput(Matcher &matcher, std::string const &str)
+static void testInput(Matcher &matcher, std::string const &str)
 {
 	std::cout << "Input: \"" << str << "\"\n";
 
@@ -19,7 +19,7 @@ void testInput(Matcher &matcher, std::string const &str)
 	std::cout << std::endl;
 }
 
-void testInputCount(Matcher &matcher, std::string const &str)
+static void testInputCount(Matcher &matcher, std::string const &str)
 {
 	std::size_t count;
 	std::cout << "Input: \"" << str << "\"\n";

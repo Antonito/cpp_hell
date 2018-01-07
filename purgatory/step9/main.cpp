@@ -2,12 +2,12 @@
 #include <iostream>
 #include "Lexer.hpp"
 
-void integer(std::string const &token)
+static void integer(std::string const &token)
 {
 	std::cout << "Found the number " << token << std::endl;
 }
 
-void criminel(std::string const &token)
+static void criminel(std::string const &token)
 {
 	std::cout << "Chief ! I found a \"" << token << "\" !!" << std::endl;
 }
