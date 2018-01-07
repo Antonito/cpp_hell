@@ -2,29 +2,36 @@
 #include <iostream>
 #include "State.hpp"
 
+std::map<State::func_t *, int> State::m_functions;
+
 State::State() :
 	m_name(""),
 	m_links(),
-	m_isLambda(false)
+	m_isLambda(false),
+	m_function(NULL)
 {
 }
 
 State::State(std::string const &name) :
 	m_name(name),
 	m_links(),
-	m_isLambda(false)
+	m_isLambda(false),
+	m_function(NULL)
 {
 }
 
 State::State(State const &other) :
 	m_name(other.m_name),
 	m_links(other.m_links),
-	m_isLambda(other.m_isLambda)
+	m_isLambda(other.m_isLambda),
+	m_function(other.m_function)
 {
+	State::addFunction(m_function);
 }
 
 State::~State()
 {
+	State::removeFunction(m_function);
 }
 
 State &State::operator=(State const &other)
@@ -34,6 +41,8 @@ State &State::operator=(State const &other)
 		m_name = other.m_name;
 		m_links = other.m_links;
 		m_isLambda = other.m_isLambda;
+		m_function = other.m_function;
+		State::addFunction(m_function);
 	}
 	return *this;
 }
@@ -174,4 +183,29 @@ std::vector<char> State::getLinkLetters() const
 	}
 
 	return res;
+}
+
+void State::addFunction(func_t *f)
+{
+	if (!f)
+	{
+		return;
+	}
+	m_functions[f]++;
+}
+
+void State::removeFunction(func_t *f)
+{
+	if (!f)
+	{
+		return;
+	}
+	if (m_functions.find(f) != m_functions.end())
+	{
+		if (--m_functions[f] <= 0)
+		{
+			delete f;
+			m_functions.erase(f);
+		}
+	}
 }

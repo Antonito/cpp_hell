@@ -18,6 +18,7 @@ bool Matcher::find(std::string const &str)
 	}
 
 	std::string state = m_fsa.initial();
+	std::string token;
 
 	for (std::size_t pos = 0; pos < str.length(); ++pos)
 	{
@@ -26,13 +27,16 @@ bool Matcher::find(std::string const &str)
 		if (s.has(str[pos]))
 		{
 			state = s[str[pos]];
+			token += str[pos];
 		} 
 		else
 		{
 			state = m_fsa.initial();
+			token = "";
 		}
 		if (m_fsa[state].isFinal())
 		{
+			m_fsa[state].execCallback(token);
 			return true;
 		}
 	}
@@ -49,6 +53,7 @@ bool Matcher::find(std::string const &str, std::size_t &count)
 	}
 
 	std::string state = m_fsa.initial();
+	std::string token;
 	bool found = false;
 
 	for (std::size_t pos = 0; pos < str.length(); ++pos)
@@ -58,13 +63,16 @@ bool Matcher::find(std::string const &str, std::size_t &count)
 		if (s.has(str[pos]))
 		{
 			state = s[str[pos]];
+			token += str[pos];
 		}
 		else
 		{
 			state = m_fsa.initial();
+			token = "";
 		}
 		if (m_fsa[state].isFinal())
 		{
+			m_fsa[state].execCallback(token);
 			++count;
 			found = true;
 			state = m_fsa.initial();

@@ -2,7 +2,7 @@
 ## Configuration
 ##
 cmake_minimum_required(VERSION 3.1)
-project(test_improved_pattern)
+project(test_notifier)
 
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
 
@@ -13,5 +13,5 @@ endif()
 
 # Get log library files
 file(GLOB SOURCES main.cpp State.cpp FSA.cpp Matcher.cpp ExpressionParser.cpp)
-set(TEST_IMPROVED_PATTERN test_improved_pattern)
-add_executable(${TEST_IMPROVED_PATTERN} ${SOURCES})
+set(TEST_NOTIFIER test_notifier)
+add_executable(${TEST_NOTIFIER} ${SOURCES})

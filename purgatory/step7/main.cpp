@@ -48,12 +48,6 @@ std::string s(int n)
 
 int main()
 {
-	ExpressionParser ep("(evi(l)|(an))|(mechant)");
-
-	std::ofstream out("dfa.txt");
-
-	out << ep.getDFA();
-
 	Matcher m("(evil|(an))|(mechant)|(criminel)");
 
 	testInputCount(m, "I am an evil criminel mechant, and I drink some evian");
