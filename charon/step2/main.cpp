@@ -7,40 +7,42 @@
 class Callable
 {
 public:
-	void operator()() {
+	void operator()()
+	{
 		std::cout << "Callable Object" << std::endl;
 	}
 };
 
-void zeroFunction()
+static void zeroFunction()
 {
 	std::cout << "Hello World" << std::endl;
 }
 
-void oneFunction(std::string const &str)
+static void oneFunction(std::string const &str)
 {
 	std::cout << str << std::endl;
 }
 
-int twoFunction(int a, int b)
+static int twoFunction(int a, int b)
 {
 	std::cout << "a + b = " << a + b << std::endl;
 	return a + b;
 }
 
-int threeFunction(std::string const &str, int a, int b)
+static int threeFunction(std::string const &str, int a, int b)
 {
 	std::cout << str << ": " << a * b << std::endl;
 	return a * b;
 }
 
-double fourFunction(std::string const &str, int value, double value2, double value3)
+static double fourFunction(std::string const &str, int value,
+				double value2, double value3)
 {
 	std::cout << str << ": " << value << " and " << value2 << std::endl;
 	return value2 + value3;
 }
 
-int main()
+static void basicTest()
 {
 	Function<void ()> f0 = &zeroFunction;
 	f0();
@@ -59,10 +61,16 @@ int main()
 	Function<double (std::string const &, int, double, double)> f4 = &fourFunction;
 	double resD = f4("Double", 5, 6, 14);
 	std::cout << "Res: " << resD << std::endl;
+}
 
+int main()
+{
+	basicTest();
 #if __cplusplus >= 201103L
-	Function<int (int, int)> b1 = std::bind(&threeFunction, "Bind", std::placeholders::_1, std::placeholders::_2);
-	resI = b1(2, 3);
+	Function<int (int, int)> b1 = std::bind(&threeFunction, "Bind",
+						std::placeholders::_1,
+						std::placeholders::_2);
+	int resI = b1(2, 3);
 	std::cout << "Res: " << resI << std::endl;
 #endif
 

@@ -1,5 +1,5 @@
 #ifndef FUNCTION_SIGNATURE_HPP_
-#define FUNCTION_SIGNATURE_HPP_
+# define FUNCTION_SIGNATURE_HPP_
 
 template <typename T>
 struct FunctionSignature;
@@ -28,7 +28,8 @@ struct FunctionSignature<R(Arg1, Arg2, Arg3)>
 	typedef R(*type)(Arg1, Arg2, Arg3);
 };
 
-template <typename R, typename Arg1, typename Arg2, typename Arg3, typename Arg4>
+template <typename R, typename Arg1, typename Arg2, typename Arg3,
+		typename Arg4>
 struct FunctionSignature<R(Arg1, Arg2, Arg3, Arg4)>
 {
 	typedef R(*type)(Arg1, Arg2, Arg3, Arg4);

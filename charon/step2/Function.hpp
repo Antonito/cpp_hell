@@ -1,7 +1,8 @@
 #ifndef FUNCTION_HPP_
-#define FUNCTION_HPP_
+# define FUNCTION_HPP_
 
-template <typename R, typename Arg1 = void, typename Arg2 = void, typename Arg3 = void, typename Arg4 = void>
+template <typename R, typename Arg1 = void, typename Arg2 = void,
+		typename Arg3 = void, typename Arg4 = void>
 class Function;
 
 template <typename R>
@@ -244,7 +245,8 @@ private:
 	ICallable *m_callable;
 };
 
-template <typename R, typename Arg1, typename Arg2, typename Arg3, typename Arg4>
+template <typename R, typename Arg1, typename Arg2,
+		typename Arg3, typename Arg4>
 class Function<R(Arg1, Arg2, Arg3, Arg4)>
 {
 public:
@@ -303,4 +305,5 @@ public:
 private:
 	ICallable *m_callable;
 };
+
 #endif
