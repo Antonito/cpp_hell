@@ -13,11 +13,11 @@ static std::ostream &returnStream(std::ostream &stream)
 	return stream;
 }
 
-void modifierTest(int& n1, int& n2, const int& n3)
+static void modifierTest(int& n1, int& n2, const int& n3)
 {
-    std::cout << "In function: " << n1 << ' ' << n2 << ' ' << n3 << '\n';
-    ++n2;
-    std::cout << "Incremented n2 in function ..." << '\n';
+	std::cout << "In function: " << n1 << ' ' << n2 << ' ' << n3 << '\n';
+	++n2;
+	std::cout << "Incremented n2 in function ..." << '\n';
 }
 
 void referenceTest()
@@ -25,7 +25,7 @@ void referenceTest()
 	std::string const str = "Hello World";
 
 	std::cout << "=== Reference bind test ===\n";
-	std::cout << "-- Reference parameter --\n";	
+	std::cout << "-- Reference parameter --\n";
 	bind(&fillStream, ::ref(std::cout), str)();
 	std::cout << "-- Reference return method --\n";
 	bind(&returnStream, ::ref(std::cerr))() << "Impressive!" << std::endl;
