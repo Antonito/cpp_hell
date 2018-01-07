@@ -1,5 +1,5 @@
 #ifndef IS_PRINTABLE_HPP_
-#define IS_PRINTABLE_HPP_
+# define IS_PRINTABLE_HPP_
 
 template<typename S, typename O>
 class is_printable
@@ -14,7 +14,9 @@ private:
 	};
 
 	template<typename C>
-	static yes &isPrintable(typename IsPrintableWrap<sizeof((*reinterpret_cast<S *>(NULL)) << (*reinterpret_cast<C *>(NULL)))>::value value);
+	static yes &isPrintable(typename IsPrintableWrap<sizeof(
+			(*reinterpret_cast<S *>(NULL))
+			<<(*reinterpret_cast<C *>(NULL)))>::value value);
 
 	template <typename>
 	static no &isPrintable(...);

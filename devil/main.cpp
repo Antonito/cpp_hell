@@ -2,16 +2,16 @@
 #include <vector>
 #include "Inspector.hpp"
 
-struct test {}; 
+struct test {};
 struct lol {};
 
-std::ostream &operator<<(std::ostream &out, const lol &)
+static std::ostream &operator<<(std::ostream &out, const lol &)
 {
 	out << "Lol instance given";
-	return out; 
+	return out;
 }
 
-int main ()
+static void testIsPrintable()
 {
 	test	t;
 	lol	l;
@@ -26,8 +26,16 @@ int main ()
 	std::cout << "std::string       -> " << 
 		is_printable<std::ostream, std::string>::Value << std::endl;
 	std::cout << "std::vector<test> -> " << 
-		is_printable<std::ostream, std::vector<test> >::Value 
+		is_printable<std::ostream, std::vector<test> >::Value
 		<< std::endl;
+}
+
+int main ()
+{
+	test	t;
+	lol	l;
+	std::string str = "koala";
+	std::vector<test> vec;
 
 	std::cout << "==== Inspect ====" <<std::endl;
 	std::cout << "test              -> ";
