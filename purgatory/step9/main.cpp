@@ -4,12 +4,12 @@
 
 static void integer(std::string const &token)
 {
-	std::cout << "Found the number " << token << std::endl;
+	std::cout << "- Integer: " << token << std::endl;
 }
 
 static void criminel(std::string const &token)
 {
-	std::cout << "Chief ! I found a \"" << token << "\" !!" << std::endl;
+	std::cout << "- Evil: \"" << token << '"' << std::endl;
 }
 
 int main()

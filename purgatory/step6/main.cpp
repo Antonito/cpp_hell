@@ -9,33 +9,39 @@
 
 static void testInput(Matcher &matcher, std::string const &str)
 {
-	std::cout << "Input: \"" << str << "\"\n";
+	std::cout << "  \"" << str << "\"\n";
 
 	if (matcher.find(str))
 	{
-		std::cout << "Found !\n";
+		std::cout << "  -> Found !\n\n";
 	}
 	else
 	{
-		std::cout << "Not found\n";
+		std::cout << "  -> Not found\n\n";
 	}
-	std::cout << std::endl;
 }
 
 static void testInputCount(Matcher &matcher, std::string const &str)
 {
 	std::size_t count;
-	std::cout << "Input: \"" << str << "\"\n";
+	std::cout << "  \"" << str << "\"\n";
 
 	if (matcher.find(str, count))
 	{
-		std::cout << "Found " << count << " times\n";
+		std::cout << "  -> Found " << count << " times\n\n";
 	}
 	else
 	{
-		std::cout << "Not found\n";
+		std::cout << "  -> Not found\n\n";
 	}
-	std::cout << std::endl;
+}
+
+static void printTitle(std::string const &title)
+{
+	std::string s(5, '=');
+
+	std::cout << s << ' ' << title << ' ' << s << '\n';
+	std::cout << std::string(s.length() * 2 + 2 + title.length(), '-') << '\n';
 }
 
 static std::string s(int n)
@@ -48,14 +54,19 @@ static std::string s(int n)
 
 int main()
 {
-	ExpressionParser ep("(evi(l)|(an))|(mechant)");
+	std::string expr = "(evil|(an))|(mechant)|(criminel)";
+	Matcher m(expr);
 
-	std::ofstream out("dfa.txt");
+	std::cout << "Expression: " << expr << "\n\n";
 
-	out << ep.getDFA();
-
-	Matcher m("(evil|(an))|(mechant)|(criminel)");
-
+	printTitle("Match all 4 of the string");
 	testInputCount(m, "I am an evil criminel mechant, and I drink some evian");
+
+	printTitle("No match");
+	testInputCount(m, "No match there");
+
+	printTitle("Sneaky match");
+	testInputCount(m, "The 666 beast is really deviant");
+
 	return EXIT_SUCCESS;
 }

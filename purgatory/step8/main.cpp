@@ -11,15 +11,23 @@ static void testInput(Matcher &matcher, std::string const &str)
 {
 	std::size_t count;
 
-	std::cout << str << " : ";
+	std::cout << "  \"" << str << "\"\n";
 	if (matcher.find(str, count))
 	{
-		std::cout << "OK (" << count << " time" << (count > 1 ? "s" : "") << ")" << std::endl;
+		std::cout << "  -> Found " << count << " time" << (count > 1 ? "s" : "") << '\n' << std::endl;
 	}
 	else
 	{
-		std::cout << "KO" << std::endl;
+		std::cout << "  -> Not found\n" << std::endl;
 	}
+}
+
+static void printTitle(std::string const &title)
+{
+	std::string s(5, '=');
+
+	std::cout << s << ' ' << title << ' ' << s << '\n';
+	std::cout << std::string(s.length() * 2 + 2 + title.length(), '-') << '\n';
 }
 
 int main(int ac, char **av)
@@ -28,21 +36,37 @@ int main(int ac, char **av)
 
 	Matcher m(regex);
 
-	std::cout << "Input pattern: " << regex << '\n' << std::endl;
+	std::cout << "Regex: " << regex << '\n' << std::endl;
 
 	if (ac > 1)
 	{
+		printTitle("User input");
 		testInput(m, av[1]);
 	}
 	else
 	{
+		printTitle("Valid email");
 		testInput(m, "e-mail.test@epitech.eu");
+
+		printTitle("2 valid email");
 		testInput(m, "e-mail.test_42@epitech.eu and second_email@wanadoo.fr");
+		
+		printTitle("2 invalid email");
 		testInput(m, "e-mail.test_42@epitech.e and secondemail@wanadoofr");
+		
+		printTitle("Missing '@'");
 		testInput(m, "e-mail.test epitech.eu");
+		
+		printTitle("Missing domain name");
 		testInput(m, "e-mail.test@.eu");
+		
+		printTitle("Missing left part of the adress");
 		testInput(m, "@a.eu");
+		
+		printTitle("Too short extension");
 		testInput(m, "e@a.e");
+		
+		printTitle("Very short, but valid email");
 		testInput(m, "e@a.it");
 	}
 

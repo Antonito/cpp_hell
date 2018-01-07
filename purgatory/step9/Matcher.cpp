@@ -9,9 +9,6 @@ Matcher::Matcher(FSA const &fsa) : m_fsa(fsa)
 Matcher::Matcher(std::string const &pattern) :
 	m_fsa(ExpressionParser(pattern).getDFA())
 {
-	std::ofstream of("dfa.txt");
-
-	of << m_fsa;
 }
 
 bool Matcher::find(std::string const &str)

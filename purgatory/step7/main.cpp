@@ -9,22 +9,23 @@
 
 static void testInput(Matcher &matcher, std::string const &str)
 {
-	std::cout << "Input: \"" << str << "\"\n";
+	std::size_t count;
+	std::cout << "  \"" << str << "\"\n";
 
-	matcher.find(str);
-}
-
-static std::string s(int n)
-{
-	std::stringstream ss;
-
-	ss << 'S' << n;
-	return ss.str();
+	matcher.find(str, count);
 }
 
 static void printTheTokenAndMore(std::string const &token)
 {
-	std::cout << "The token \"" << token << "\" was found !" << std::endl;
+	std::cout << "  -> The token \"" << token << "\" was found !\n";
+}
+
+static void printTitle(std::string const &title)
+{
+	std::string s(5, '=');
+
+	std::cout << '\n' << s << ' ' << title << ' ' << s << '\n';
+	std::cout << std::string(s.length() * 2 + 2 + title.length(), '-') << '\n';
 }
 
 int main()
@@ -34,11 +35,22 @@ int main()
 	FSA dfa = ep.getDFA();
 	std::vector<std::string> finalStates = dfa.finalStates();
 
-	dfa[finalStates[0]].setCallback(&printTheTokenAndMore);
+	for (std::size_t i = 0; i < finalStates.size(); ++i)
+	{
+		dfa[finalStates[i]].setCallback(&printTheTokenAndMore);
+	}
 
 	Matcher m(dfa);
 
+	printTitle("2 Matches");
 	testInput(m, "I am a criminel mechant, and I drink some evian");
+
+	printTitle("Evil match");
 	testInput(m, "I am a so evil");
+
+	printTitle("No match");
+	testInput(m, "I am alone...");
+
+	std::cout << std::endl;
 	return EXIT_SUCCESS;
 }
