@@ -44,7 +44,7 @@ static double fourFunction(std::string const &str, int value,
 
 static void basicTest()
 {
-	Function<void ()> f0 = &zeroFunction;
+	Function<void ()> const f0 = &zeroFunction;
 	f0();
 
 	Function<void (std::string const &)> f1 = &oneFunction;

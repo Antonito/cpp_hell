@@ -52,7 +52,7 @@ public:
 		return *this;
 	}
 
-	R operator()()
+	R operator()() const
 	{
 		if (!m_callable)
 		{
@@ -112,7 +112,7 @@ public:
 		return *this;
 	}
 
-	R operator()(Arg1 a)
+	R operator()(Arg1 a) const
 	{
 		if (!m_callable)
 		{
@@ -172,7 +172,7 @@ public:
 		return *this;
 	}
 
-	R operator()(Arg1 a, Arg2 b)
+	R operator()(Arg1 a, Arg2 b) const
 	{
 		if (!m_callable)
 		{
@@ -232,7 +232,7 @@ public:
 		return *this;
 	}
 
-	R operator()(Arg1 a, Arg2 b, Arg3 c)
+	R operator()(Arg1 a, Arg2 b, Arg3 c) const
 	{
 		if (!m_callable)
 		{
@@ -293,7 +293,7 @@ public:
 		return *this;
 	}
 
-	R operator()(Arg1 a, Arg2 b, Arg3 c, Arg4 d)
+	R operator()(Arg1 a, Arg2 b, Arg3 c, Arg4 d) const
 	{
 		if (!m_callable)
 		{
