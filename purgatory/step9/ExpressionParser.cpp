@@ -1,5 +1,7 @@
 #include <cstdio>
 #include <iostream>
+#include <fstream>
+#include <cstdlib>
 #include "ExpressionParser.hpp"
 
 ExpressionParser::ExpressionParser(std::string const &pattern) : m_pattern(pattern)
@@ -33,7 +35,6 @@ FSA ExpressionParser::_subExpr() const
 	{
 		char peek = m_is.peek();
 
-
 		switch (peek)
 		{
 		case ')':
@@ -48,6 +49,9 @@ FSA ExpressionParser::_subExpr() const
 		case '|':
 			m_is.get(c);
 			expr |= this->subExpr();
+			break;
+		case '[':
+			expr += this->filterModifier(this->parseRange());
 			break;
 		case '?':
 		case '*':
@@ -87,6 +91,84 @@ FSA ExpressionParser::singleLetter() const
 
 	return expr;
 }
+
+FSA ExpressionParser::parseRange() const
+{
+	FSA range;
+	char c;
+	State initialState = State::create();
+	State finalState = State::create();
+	std::string initial = initialState.name();
+	std::string final = finalState.name();
+
+	finalState.setIsFinal(true);
+
+	range.addInitial(initialState);
+	range.add(finalState);
+
+	m_is.get(c);
+	m_is.get(c);
+
+	bool first = true;
+	char last;
+
+	while (c != ']')
+	{
+		if (c == EOF)
+		{
+			std::cerr << "Missing ']' or empty []" << std::endl;
+			throw std::exception();
+		}
+
+		if ((c == '-' && (first || m_is.peek() == ']')) ||
+			(c == ']' && first))
+		{
+			addRangeChar(c, range, initial, final);
+		}
+		else if (c == '-')
+		{
+			char next;
+
+			m_is.get(next);
+			if (last >= next)
+			{
+				std::cerr << "Range values reversed " << last << '-' << next << std::endl;
+				throw std::exception();
+			}
+			for (char ch = last + 1; ch <= next; ++ch)
+			{
+				addRangeChar(ch, range, initial, final);
+			}
+		}
+		else
+		{
+			addRangeChar(c, range, initial, final);
+		}
+
+		if (first)
+		{
+			first = false;
+		}
+		last = c;
+		m_is.get(c);
+	}
+
+	return range;
+}
+
+void ExpressionParser::addRangeChar(char c, FSA &range, std::string const &initial, std::string const &final) const
+{
+	State s = State::create();
+	State s2 = State::create();
+
+	range.add(s);
+	range.add(s2);
+
+	range[initial].lambdaLink(range[s.name()]);
+	range[s.name()].linkTo(range[s2.name()], c);
+	range[s2.name()].lambdaLink(range[final]);
+}
+
 
 FSA ExpressionParser::filterModifier(FSA expr) const
 {

@@ -16,7 +16,7 @@ int main()
 {
 	Lexer l;
 
-	l.addLexer("-?(0|1|2|3|4|5|6|7|8|9)+", &integer)
+	l.addLexer("-?[0-9]+", &integer)
 		.addLexer("(me+cha+nt)|(criminels*)", &criminel);
 
 	l.consume("Super meeeechaaaaaaaaaant42");
