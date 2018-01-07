@@ -24,21 +24,7 @@ static void testInput(Matcher &matcher, std::string const &str)
 
 int main(int ac, char **av)
 {
-	std::string _alphanum = "abcdefghijklmnopqrstuvwxyz0123456789";
-	std::string an;
-
-	an.reserve(2 * _alphanum.size());
-
-	for (std::size_t i = 0; i < _alphanum.size(); ++i)
-	{
-		if (i)
-		{
-			an += '|';
-		}
-		an += _alphanum[i];
-	}
-	
-	std::string regex = "(" + an + "|.)+@(" + an + "|.)+.(" + an + ")(" + an + ")";
+	std::string regex = "[-a-z0-9._]+@[-a-z0-9]+.[a-z][a-z]";
 
 	Matcher m(regex);
 
@@ -50,11 +36,11 @@ int main(int ac, char **av)
 	}
 	else
 	{
-		testInput(m, "email.test@epitech.eu");
-		testInput(m, "email.test42@epitech.eu and secondemail@wanadoo.fr");
-		testInput(m, "email.test42@epitech.eua and secondemail@wanadoofr");
-		testInput(m, "email.test epitech.eu");
-		testInput(m, "email.test@.eu");
+		testInput(m, "e-mail.test@epitech.eu");
+		testInput(m, "e-mail.test_42@epitech.eu and second_email@wanadoo.fr");
+		testInput(m, "e-mail.test_42@epitech.e and secondemail@wanadoofr");
+		testInput(m, "e-mail.test epitech.eu");
+		testInput(m, "e-mail.test@.eu");
 		testInput(m, "@a.eu");
 		testInput(m, "e@a.e");
 		testInput(m, "e@a.it");
