@@ -6,7 +6,7 @@
 
 FSA::FSA() :
 	m_state(),
-	m_initial(NULL)
+	m_initial("")
 {
 }
 
@@ -37,7 +37,7 @@ void FSA::addInitial(State const &state)
 
 void FSA::setInitial(std::string const &name)
 {
-	m_initial = &m_state[name];
+	m_initial = name;
 }
 
 std::vector<std::string> FSA::closure(std::string const &name) const
@@ -132,11 +132,11 @@ std::vector<std::string> FSA::move(std::vector<std::string> const &set, char c) 
 	return res;
 }
 
-FSA *FSA::subset() const
+FSA FSA::subset() const
 {
 	std::vector<State> dfaStates;
 	std::vector<std::vector<std::string> > dfaSets;
-	std::vector<std::string> initial = this->closure(m_initial->name());
+	std::vector<std::string> initial = this->closure(m_initial);
 	std::queue<std::vector<std::string> > processing;
 	std::string alphabet = this->getAlphabet();
 
@@ -181,12 +181,12 @@ FSA *FSA::subset() const
 		}
 	}
 
-	FSA *res = new FSA();
+	FSA res;
 
-	res->addInitial(dfaStates[0]);
+	res.addInitial(dfaStates[0]);
 	for (std::size_t i = 1; i < dfaStates.size(); ++i)
 	{
-		res->add(dfaStates[i]);
+		res.add(dfaStates[i]);
 	}
 
 	return res;
@@ -230,6 +230,112 @@ std::string FSA::toDotFormat() const
 
 	ss << '}';
 	return ss.str();
+}
+
+FSA FSA::operator|(FSA const &right) const
+{
+	return FSA::join(*this, right, true);
+}
+
+FSA FSA::operator^(FSA const &right) const
+{
+	return FSA::join(*this, right, false);
+}
+
+FSA FSA::operator+(FSA const &second) const
+{
+	return FSA::concatenate(*this, second);
+}
+
+FSA &FSA::operator|=(FSA const &right)
+{
+	return *this = FSA::join(*this, right, true);
+}
+
+FSA &FSA::operator^=(FSA const &right)
+{
+	return *this = FSA::join(*this, right, false);
+}
+
+FSA &FSA::operator+=(FSA const &second)
+{
+	return *this = FSA::concatenate(*this, second);
+}
+
+FSA FSA::join(FSA const &left, FSA const &right, bool joinOutput)
+{
+	FSA res;
+	std::vector<std::string> outs;
+	State initial = State::create();
+
+	res.addInitial(initial);
+
+	for (std::map<std::string, State>::const_iterator it = left.m_state.begin();
+		it != left.m_state.end(); ++it)
+	{
+		if (it->second.isFinal())
+		{
+			outs.push_back(it->first);
+		}
+		res.add(it->second);
+	}
+
+	for (std::map<std::string, State>::const_iterator it = right.m_state.begin();
+		it != right.m_state.end(); ++it)
+	{
+		if (it->second.isFinal())
+		{
+			outs.push_back(it->first);
+		}
+		res.add(it->second);
+	}
+
+	res[initial.name()].lambdaLink(res[left.initial()]);
+	res[initial.name()].lambdaLink(res[right.initial()]);
+
+	if (joinOutput)
+	{
+		State output = State::create();
+		std::string const &name = output.name();
+
+		res.add(output);
+
+		for (std::size_t i = 0; i < outs.size(); ++i)
+		{
+			res[outs[i]].lambdaLink(res[name]);
+		}
+	}
+	return res;
+}
+
+FSA FSA::concatenate(FSA const &first, FSA const &second)
+{
+	FSA res;
+	std::vector<std::string> outs;
+
+	for (std::map<std::string, State>::const_iterator it = first.m_state.begin();
+		it != first.m_state.end(); ++it)
+	{
+		if (it->second.isFinal())
+		{
+			outs.push_back(it->first);
+		}
+		res.add(it->second);
+	}
+
+	res.setInitial(first.initial());
+
+	for (std::map<std::string, State>::const_iterator it = second.m_state.begin();
+		it != second.m_state.end(); ++it)
+	{
+		res.add(it->second);
+	}
+
+	for (std::size_t i = 0; i < outs.size(); ++i)
+	{
+		res[outs[i]].lambdaLink(res[second.initial()]);
+	}
+	return res;
 }
 
 std::string FSA::getAlphabet() const
