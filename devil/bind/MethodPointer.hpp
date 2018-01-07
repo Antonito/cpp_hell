@@ -1,5 +1,5 @@
 #ifndef METHOD_POINTER_HPP_
-#define METHOD_POINTER_HPP_
+# define METHOD_POINTER_HPP_
 
 template <class ClassType, typename ReturnType>
 class MethodPointer;

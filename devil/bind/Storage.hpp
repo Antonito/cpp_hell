@@ -1,5 +1,5 @@
 #ifndef STORAGE_HPP_
-#define STORAGE_HPP_
+# define STORAGE_HPP_
 
 struct Storage0
 {

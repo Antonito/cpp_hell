@@ -1,9 +1,9 @@
 #ifndef TYPE_LIST_HPP_
-#define TYPE_LIST_HPP_
+# define TYPE_LIST_HPP_
 
-#include "Value.hpp"
-#include "Storage.hpp"
-#include "TypeTraits.hpp"
+# include "Value.hpp"
+# include "Storage.hpp"
+# include "TypeTraits.hpp"
 
 namespace Placeholder
 {
@@ -42,7 +42,8 @@ public:
 	}
 
 	template<typename ReturnType, typename Callable, typename List>
-	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &) {
+	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &)
+	{
 		return call();
 	}
 };
@@ -72,7 +73,8 @@ public:
 	}
 
 	template<typename ReturnType, typename Callable, typename List>
-	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &list) {
+	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &list)
+	{
 		return call(list[BaseClass::_t1]);
 	}
 };
@@ -107,7 +109,8 @@ public:
 	}
 
 	template<typename ReturnType, typename Callable, typename List>
-	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &list) {
+	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &list)
+	{
 		return call(list[BaseClass::_t1],
 				list[BaseClass::_t2]);
 	}
@@ -150,7 +153,8 @@ public:
 	}
 
 	template<typename ReturnType, typename Callable, typename List>
-	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &list) {
+	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &list)
+	{
 		return call(list[BaseClass::_t1],
 				list[BaseClass::_t2],
 				list[BaseClass::_t3]);
@@ -200,7 +204,8 @@ public:
 	}
 
 	template<typename ReturnType, typename Callable, typename List>
-	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &list) {
+	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &list)
+	{
 		return call(list[BaseClass::_t1],
 				list[BaseClass::_t2], list[BaseClass::_t3],
 				list[BaseClass::_t4]);
@@ -257,7 +262,8 @@ public:
 	}
 
 	template<typename ReturnType, typename Callable, typename List>
-	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &list) {
+	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &list)
+	{
 		return call(list[BaseClass::_t1],
 				list[BaseClass::_t2], list[BaseClass::_t3],
 				list[BaseClass::_t4], list[BaseClass::_t5]);
@@ -323,7 +329,8 @@ public:
 	}
 
 	template<typename ReturnType, typename Callable, typename List>
-	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &list) {
+	ReturnType operator()(TypeTraits<ReturnType>, Callable &call, List &list)
+	{
 		return call(list[BaseClass::_t1],
 				list[BaseClass::_t2], list[BaseClass::_t3],
 				list[BaseClass::_t4], list[BaseClass::_t5],

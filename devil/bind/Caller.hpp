@@ -1,14 +1,15 @@
 #ifndef CALLER_HPP_
-#define CALLER_HPP_
+# define CALLER_HPP_
 
-#include "TypeTraits.hpp"
-#include "TypeList.hpp"
+# include "TypeTraits.hpp"
+# include "TypeList.hpp"
 
 template <typename ReturnType, typename Callable, typename List>
 class Caller
 {
 public:
-	Caller(Callable const &call, List const &list) : _callable(call), _list(list) 
+	Caller(Callable const &call, List const &list) :
+		_callable(call), _list(list)
 	{
 	}
 

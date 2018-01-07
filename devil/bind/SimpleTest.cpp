@@ -44,19 +44,19 @@ static double sixParams(double a, double b, int c, int d, int e, int f)
 
 void simpleTest()
 {
-	std::cout << "=== Simple bind test ===\n";
-	std::cout << "-- ZeroParam --\n";
-	std::cout << bind(&zeroParam)() << '\n';
-	std::cout << "-- OneParam --\n";
-	std::cout << "5 * 2 -> " << bind(&oneParam, 5)() << '\n';
-	std::cout << "-- TwoParams --\n";
-	std::cout << "5 * 10 -> " << bind(&twoParams, 5, 10)() << '\n';
-	std::cout << "-- ThreeParams --\n";
-	std::cout << bind(&threeParams, 1335, 2, 1.2)() << '\n';
-	std::cout << "-- FourParams --\n";
-	std::cout << bind(&fourParams, 2, 3, 4, 5)() << '\n';
-	std::cout << "-- FiveParams --\n";
-	std::cout << bind(&fiveParams, 8, 9, 23, 34, 1)() << '\n';
-	std::cout << "-- SixParams --\n";
-	std::cout << bind(&sixParams, 2, 4, 6, 1, 3, 5)() << '\n';
+	std::cout << "=== Simple bind test ===\n"
+	<< "-- ZeroParam --\n"
+	<< bind(&zeroParam)() << '\n'
+	<< "-- OneParam --\n"
+	<< "5 * 2 -> " << bind(&oneParam, 5)() << '\n'
+	<< "-- TwoParams --\n"
+	<< "5 * 10 -> " << bind(&twoParams, 5, 10)() << '\n'
+	<< "-- ThreeParams --\n"
+	<< bind(&threeParams, 1335, 2, 1.2)() << '\n'
+	<< "-- FourParams --\n"
+	<< bind(&fourParams, 2, 3, 4, 5)() << '\n'
+	<< "-- FiveParams --\n"
+	<< bind(&fiveParams, 8, 9, 23, 34, 1)() << '\n'
+	<< "-- SixParams --\n"
+	<< bind(&sixParams, 2, 4, 6, 1, 3, 5)() << '\n';
 }

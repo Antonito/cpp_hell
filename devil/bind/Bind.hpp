@@ -1,13 +1,13 @@
 #ifndef BIND_HPP_
-#define BIND_HPP_
+# define BIND_HPP_
 
-#include <cstddef>
-#include "Caller.hpp"
-#include "TypeTraits.hpp"
-#include "TypeList.hpp"
-#include "Traits.hpp"
-#include "MethodPointer.hpp"
-#include "ReferenceWrapper.hpp"
+# include <cstddef>
+# include "Caller.hpp"
+# include "TypeTraits.hpp"
+# include "TypeList.hpp"
+# include "Traits.hpp"
+# include "MethodPointer.hpp"
+# include "ReferenceWrapper.hpp"
 
 template <typename ReturnType>
 Caller<ReturnType, ReturnType(*)(void),
@@ -26,10 +26,12 @@ Caller<ReturnType, MethodPointer<ClassType, ReturnType(ClassType::*)()>,
 	bind(ReturnType (ClassType::*func)(), ClassType *ptr)
 {
 	typedef TypeList0 ListType;
-	typedef MethodPointer<ClassType, ReturnType(ClassType::*)()> MethodPtr;
+	typedef MethodPointer<ClassType,
+		ReturnType(ClassType::*)()> MethodPtr;
 
 	ListType list;
-	return Caller<ReturnType, MethodPtr, ListType>(MethodPtr(ptr, func), list);
+	return Caller<ReturnType, MethodPtr,
+			ListType>(MethodPtr(ptr, func), list);
 }
 
 template <typename ReturnType, class ClassType>
@@ -38,10 +40,12 @@ Caller<ReturnType, MethodPointer<ClassType, ReturnType(ClassType::*)() const>,
 	bind(ReturnType (ClassType::*func)() const, ClassType const *ptr)
 {
 	typedef TypeList0 ListType;
-	typedef MethodPointer<ClassType, ReturnType(ClassType::*)() const> MethodPtr;
+	typedef MethodPointer<ClassType,
+		ReturnType(ClassType::*)() const> MethodPtr;
 
 	ListType list;
-	return Caller<ReturnType, MethodPtr, ListType>(MethodPtr(ptr, func), list);
+	return Caller<ReturnType, MethodPtr,
+		ListType>(MethodPtr(ptr, func), list);
 }
 
 template <typename ReturnType, typename X1, typename Param1>
@@ -67,7 +71,8 @@ Caller<ReturnType, MethodPointer<ClassType, ReturnType(ClassType::*)(X1)>,
 	typedef TypeList1<P1> ListType;
 
 	ListType list(p1);
-	return Caller<ReturnType, MethodPtr, ListType>(MethodPtr(ptr, func), list);
+	return Caller<ReturnType, MethodPtr,
+		ListType>(MethodPtr(ptr, func), list);
 }
 
 template <typename ReturnType, class ClassType, typename X1, typename Param1>
@@ -83,7 +88,8 @@ Caller<ReturnType, MethodPointer<ClassType,
 	typedef TypeList1<P1> ListType;
 
 	ListType list(p1);
-	return Caller<ReturnType, MethodPtr, ListType>(MethodPtr(ptr, func), list);
+	return Caller<ReturnType, MethodPtr,
+		ListType>(MethodPtr(ptr, func), list);
 }
 
 template <typename ReturnType, typename X1, typename X2,
