@@ -23,6 +23,8 @@ public:
 		return m_initial;
 	}
 
+	std::vector<std::string> finalStates() const;
+
 	std::vector<std::string> closure(std::string const &name) const;
 	std::vector<std::string> closure(std::vector<std::string> const &set) const;
 	std::vector<std::string> move(std::vector<std::string> const &set, char c) const;

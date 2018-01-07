@@ -11,31 +11,7 @@ void testInput(Matcher &matcher, std::string const &str)
 {
 	std::cout << "Input: \"" << str << "\"\n";
 
-	if (matcher.find(str))
-	{
-		std::cout << "Found !\n";
-	}
-	else
-	{
-		std::cout << "Not found\n";
-	}
-	std::cout << std::endl;
-}
-
-void testInputCount(Matcher &matcher, std::string const &str)
-{
-	std::size_t count;
-	std::cout << "Input: \"" << str << "\"\n";
-
-	if (matcher.find(str, count))
-	{
-		std::cout << "Found " << count << " times\n";
-	}
-	else
-	{
-		std::cout << "Not found\n";
-	}
-	std::cout << std::endl;
+	matcher.find(str);
 }
 
 std::string s(int n)
@@ -46,10 +22,23 @@ std::string s(int n)
 	return ss.str();
 }
 
+void printTheTokenAndMore(std::string const &token)
+{
+	std::cout << "The token \"" << token << "\" was found !" << std::endl;
+}
+
 int main()
 {
-	Matcher m("(evil|(an))|(mechant)|(criminel)");
+	ExpressionParser ep("(evi(l)|(an))|(mechant)");
 
-	testInputCount(m, "I am an evil criminel mechant, and I drink some evian");
+	FSA dfa = ep.getDFA();
+	std::vector<std::string> finalStates = dfa.finalStates();
+
+	dfa[finalStates[0]].setCallback(&printTheTokenAndMore);
+
+	Matcher m(dfa);
+
+	testInput(m, "I am a criminel mechant, and I drink some evian");
+	testInput(m, "I am a so evil");
 	return EXIT_SUCCESS;
 }

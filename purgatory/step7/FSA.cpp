@@ -42,6 +42,22 @@ void FSA::setInitial(std::string const &name)
 	m_hasInitial = true;
 }
 
+std::vector<std::string> FSA::finalStates() const
+{
+	std::vector<std::string> res;
+
+	for (std::map<std::string, State>::const_iterator it = m_state.begin();
+		it != m_state.end(); ++it)
+	{
+		if (it->second.isFinal())
+		{
+			res.push_back(it->first);
+		}
+	}
+
+	return res;
+}
+
 std::vector<std::string> FSA::closure(std::string const &name) const
 {
 	State const &s = m_state.at(name);

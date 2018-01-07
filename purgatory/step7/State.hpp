@@ -68,7 +68,7 @@ private:
 
 public:
 	template <typename T>
-	void setFunction(T t)
+	void setCallback(T t)
 	{
 		func_t *f = new func_t(t);
 
