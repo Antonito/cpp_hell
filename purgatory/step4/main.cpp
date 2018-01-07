@@ -81,16 +81,7 @@ int main()
 		++n;
 	}
 
-	std::ofstream file("nfa.txt");
-
-	file << nfa;
-
 	FSA *dfa = nfa.subset();
-
-	std::ofstream file2("dfa.txt");
-
-	file2 << *dfa;
-
 
 	Matcher m(*dfa);
 	std::size_t count;
