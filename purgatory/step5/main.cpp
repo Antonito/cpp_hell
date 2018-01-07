@@ -6,45 +6,6 @@
 #include "FSA.hpp"
 #include "Matcher.hpp"
 
-static void testInput(Matcher &matcher, std::string const &str)
-{
-	std::cout << "Input: \"" << str << "\"\n";
-
-	if (matcher.find(str))
-	{
-		std::cout << "Found !\n";
-	}
-	else
-	{
-		std::cout << "Not found\n";
-	}
-	std::cout << std::endl;
-}
-
-static void testInputCount(Matcher &matcher, std::string const &str)
-{
-	std::size_t count;
-	std::cout << "Input: \"" << str << "\"\n";
-
-	if (matcher.find(str, count))
-	{
-		std::cout << "Found " << count << " times\n";
-	}
-	else
-	{
-		std::cout << "Not found\n";
-	}
-	std::cout << std::endl;
-}
-
-static std::string s(int n)
-{
-	std::stringstream ss;
-
-	ss << 'S' << n;
-	return ss.str();
-}
-
 int main()
 {
 	std::vector<FSA> fsas;
@@ -84,18 +45,18 @@ int main()
 	FSA &criminel = fsas[2];
 	FSA &mechant = fsas[3];
 
-	std::ofstream evilFile("original_evil.txt");
-	std::ofstream evianFile("original_evian.txt");
-	std::ofstream criminelFile("original_criminel.txt");
-	std::ofstream mechantFile("original_mechant.txt");
-	std::ofstream concatenation1("concatenation1.txt");
-	std::ofstream concatenation2("concatenation2.txt");
-	std::ofstream join1("join1.txt");
-	std::ofstream join2("join2.txt");
-	std::ofstream join_multiple("join_multiple.txt");
-	std::ofstream combination1("combination1.txt");
-	std::ofstream combination2("combination2.txt");
-	std::ofstream combinationDfa("combination_dfa.txt");
+	std::ofstream evilFile("dot/original_evil.txt");
+	std::ofstream evianFile("dot/original_evian.txt");
+	std::ofstream criminelFile("dot/original_criminel.txt");
+	std::ofstream mechantFile("dot/original_mechant.txt");
+	std::ofstream concatenation1("dot/concatenation1.txt");
+	std::ofstream concatenation2("dot/concatenation2.txt");
+	std::ofstream join1("dot/join1.txt");
+	std::ofstream join2("dot/join2.txt");
+	std::ofstream join_multiple("dot/join_multiple.txt");
+	std::ofstream combination1("dot/combination1.txt");
+	std::ofstream combination2("dot/combination2.txt");
+	std::ofstream combinationDfa("dot/combination_dfa.txt");
 
 	evilFile << evil;
 	evianFile << evian;

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include "Machine.hpp"
 
 State stateTable[5][5] = {
@@ -10,11 +11,11 @@ State stateTable[5][5] = {
 };
 
 Action actionTable[5][5] = {
-	{          MA, ACTION_ERROR, ACTION_ERROR, ACTION_ERROR, ACTION_ERROR },
-	{ ACTION_ERROR,          MA, ACTION_ERROR, ACTION_ERROR, ACTION_ERROR },
-	{ ACTION_ERROR, ACTION_ERROR,          MA, ACTION_ERROR, ACTION_ERROR },
-	{ ACTION_ERROR, ACTION_ERROR, ACTION_ERROR,          MA, ACTION_ERROR },
-	{ ACTION_ERROR, ACTION_ERROR, ACTION_ERROR, ACTION_ERROR,          HR }
+	{           MA, ACTION_ERROR, ACTION_ERROR, ACTION_ERROR, ACTION_ERROR },
+	{ ACTION_ERROR,           MA, ACTION_ERROR, ACTION_ERROR, ACTION_ERROR },
+	{ ACTION_ERROR, ACTION_ERROR,           MA, ACTION_ERROR, ACTION_ERROR },
+	{ ACTION_ERROR, ACTION_ERROR, ACTION_ERROR,           MA, ACTION_ERROR },
+	{           HR,           HR,           HR,           HR,           HR }
 };
 
 Machine::Machine() :
@@ -52,10 +53,7 @@ void Machine::check(std::string const &str)
 
 	for (std::size_t pos = 0; pos <= str.length(); ++pos)
 	{
-		if (str[pos] != m_word[m_count])
-		{
-			m_count = m_word.length();
-		}
+		m_count = std::find(m_word.begin(), m_word.end(), str[pos]) - m_word.begin();
 	
 		switch (actionTable[m_current][m_count])
 		{
@@ -67,7 +65,13 @@ void Machine::check(std::string const &str)
 		case HR:
 			std::cout << m_token << std::endl;
 			pos--;
+			this->reset();
+			break;
 		default:
+			if (m_count == 0)
+			{
+				pos--;
+			}
 			this->reset();
 			break;
 		}
