@@ -1,7 +1,7 @@
 #ifndef STATE_HPP_
-#define STATE_HPP_
+# define STATE_HPP_
 
-#include <string>
+# include <string>
 
 class State
 {

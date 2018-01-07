@@ -1,7 +1,7 @@
 #ifndef MATCHER_HPP_
-#define MATCHER_HPP_
+# define MATCHER_HPP_
 
-#include "FSA.hpp"
+# include "FSA.hpp"
 
 class Matcher
 {

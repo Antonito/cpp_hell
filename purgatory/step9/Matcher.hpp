@@ -1,8 +1,8 @@
 #ifndef MATCHER_HPP_
-#define MATCHER_HPP_
+# define MATCHER_HPP_
 
-#include "FSA.hpp"
-#include "ExpressionParser.hpp"
+# include "FSA.hpp"
+# include "ExpressionParser.hpp"
 
 class Matcher
 {

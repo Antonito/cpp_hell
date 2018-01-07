@@ -1,10 +1,10 @@
 #ifndef STATE_HPP_
-#define STATE_HPP_
+# define STATE_HPP_
 
-#include <string>
-#include <map>
-#include <vector>
-#include "Function.hpp"
+# include <string>
+# include <map>
+# include <vector>
+# include "Function.hpp"
 
 class State
 {

@@ -1,9 +1,9 @@
 #ifndef EXPRESSIONPARSER_HPP_
-#define EXPRESSIONPARSER_HPP_
+# define EXPRESSIONPARSER_HPP_
 
-#include <string>
-#include <sstream>
-#include "FSA.hpp"
+# include <string>
+# include <sstream>
+# include "FSA.hpp"
 
 class ExpressionParser
 {

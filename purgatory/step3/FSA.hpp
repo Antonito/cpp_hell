@@ -1,9 +1,9 @@
 #ifndef FSA_HPP_
-#define FSA_HPP_
+# define FSA_HPP_
 
-#include <string>
-#include <map>
-#include "State.hpp"
+# include <string>
+# include <map>
+# include "State.hpp"
 
 class FSA
 {

@@ -1,8 +1,8 @@
 #ifndef LEXER_HPP_
-#define LEXER_HPP_
+# define LEXER_HPP_
 
-#include <vector>
-#include "Matcher.hpp"
+# include <vector>
+# include "Matcher.hpp"
 
 class Lexer
 {

@@ -1,7 +1,7 @@
 #ifndef MACHINE_HPP_
-#define MACHINE_HPP_
+# define MACHINE_HPP_
 
-	#include <string>
+# include <string>
 
 enum State
 {
