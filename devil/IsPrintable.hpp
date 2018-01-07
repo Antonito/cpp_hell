@@ -16,7 +16,7 @@ private:
 	template<typename C>
 	static yes &isPrintable(typename IsPrintableWrap<sizeof(
 			(*reinterpret_cast<S *>(NULL))
-			<<(*reinterpret_cast<C *>(NULL)))>::value value);
+			<< (*reinterpret_cast<C *>(NULL)))>::value value);
 
 	template <typename>
 	static no &isPrintable(...);
