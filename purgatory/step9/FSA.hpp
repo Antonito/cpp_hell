@@ -60,10 +60,15 @@ public:
 
 	FSA clone() const;
 private:
+	void _closure(std::vector<std::string> &res, std::string const &state) const;
+
 	std::string getAlphabet() const;
 	std::map<std::string, State> m_state;
 	bool m_hasInitial;
 	std::string m_initial;
+
+	mutable std::map<std::string, std::vector<std::string> > m_closure;
+	mutable std::map<std::pair<std::string, char>, std::vector<std::string> > m_move;
 };
 
 std::ostream &operator<<(std::ostream &os, FSA const &fsa);

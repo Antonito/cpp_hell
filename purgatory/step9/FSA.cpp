@@ -60,32 +60,9 @@ std::vector<std::string> FSA::finalStates() const
 
 std::vector<std::string> FSA::closure(std::string const &name) const
 {
-	State const &s = m_state.at(name);
 	std::vector<std::string> res;
 
-	res.push_back(name);
-
-	if (s.isLambda())
-	{
-		for (std::size_t i = 0; i < res.size(); ++i)
-		{
-			State const &t = m_state.at(res[i]);
-
-			if (t.isLambda())
-			{
-				std::vector<std::string> tmp = t.getLinkedStates();
-
-				for (std::size_t j = 0; j < tmp.size(); ++j)
-				{
-					if (std::find(res.begin(), res.end(), tmp[j]) == res.end())
-					{
-						res.push_back(tmp[j]);
-					}
-				}
-			}
-		}
-	}
-
+	this->_closure(res, name);
 	std::sort(res.begin(), res.end());
 	return res;
 }
@@ -96,10 +73,29 @@ std::vector<std::string> FSA::closure(std::vector<std::string> const &set) const
 
 	for (std::size_t k = 0; k < set.size(); ++k)
 	{
-		std::string const &name = set[k];
+		 this->_closure(res, set[k]);
+	}
+
+	std::sort(res.begin(), res.end());
+	return res;
+}
+
+void FSA::_closure(std::vector<std::string> &result, std::string const &name) const
+{
+	std::vector<std::string> res;
+
+	if (m_closure.find(name) != m_closure.end())
+	{
+		res = m_closure[name];
+	}
+	else
+	{
 		State const &s = m_state.at(name);
 
-		res.push_back(name);
+		if (std::find(res.begin(), res.end(), name) == res.end())
+		{
+			res.push_back(name);
+		}
 
 		if (s.isLambda())
 		{
@@ -113,45 +109,55 @@ std::vector<std::string> FSA::closure(std::vector<std::string> const &set) const
 
 					for (std::size_t j = 0; j < tmp.size(); ++j)
 					{
-						if (std::find(res.begin(), res.end(), tmp[j]) == res.end())
-						{
-							res.push_back(tmp[j]);
-						}
+						res.push_back(tmp[j]);
 					}
 				}
 			}
 		}
+		m_closure[name] = res;
 	}
 
-	std::sort(res.begin(), res.end());
-	return res;
+	result.insert(result.end(), res.begin(), res.end());
+	std::unique(result.begin(), result.end());
 }
 
 std::vector<std::string> FSA::move(std::vector<std::string> const &set, char c) const
 {
-	std::vector<std::string> res;
+	std::vector<std::string> result;
 
 	for (std::size_t i = 0; i < set.size(); ++i)
 	{
-		State const &s = m_state.at(set[i]);
+		std::vector<std::string> res;
+		std::pair<std::string, char> p = std::make_pair(set[i], c);
 
-		if (s.isLambda() == false && s.has(c))
+		if (m_move.find(p) != m_move.end())
 		{
-			std::string const &link = s[c];
-
-			if (std::find(res.begin(), res.end(), link) == res.end())
-			{
-				res.push_back(link);
-			}
+			res = m_move[p];
 		}
+		else
+		{
+			State const &s = m_state.at(set[i]);
+
+			if (s.isLambda() == false && s.has(c))
+			{
+				res.push_back(s[c]);
+			}
+
+			m_move[p] = res;
+		}
+
+		result.insert(result.end(), res.begin(), res.end());
+		std::unique(result.begin(), result.end());
 	}
 
-	std::sort(res.begin(), res.end());
-	return res;
+	std::sort(result.begin(), result.end());
+	return result;
 }
 
 FSA FSA::subset() const
 {
+	this->m_closure.clear();
+
 	std::vector<State> dfaStates;
 	std::vector<std::vector<std::string> > dfaSets;
 	std::vector<std::string> initial = this->closure(m_initial);
