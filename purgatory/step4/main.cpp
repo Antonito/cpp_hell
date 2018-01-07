@@ -84,7 +84,6 @@ int main()
 	FSA *dfa = nfa.subset();
 
 	Matcher m(*dfa);
-	std::size_t count;
 
 	testInput(m, "");
 	testInput(m, "evil is at the beggining");

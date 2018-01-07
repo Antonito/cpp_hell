@@ -53,7 +53,6 @@ int main()
 	fsa["S4"].setFinal(true);
 
 	Matcher m(fsa);
-	std::size_t count;
 
 	testInput(m, "");
 	testInput(m, "evil is at the beggining");

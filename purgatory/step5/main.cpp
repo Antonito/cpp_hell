@@ -49,7 +49,6 @@ int main()
 {
 	std::vector<FSA> fsas;
 	std::vector<std::string> words;
-	std::size_t fullLength = 0;
 
 	words.push_back("evil");
 	words.push_back("evian");
@@ -79,8 +78,6 @@ int main()
 			prev = cur.name();
 		}
 	}
-
-	int n = 1;
 
 	FSA &evil = fsas[0];
 	FSA &evian = fsas[1];
