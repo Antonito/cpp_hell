@@ -44,7 +44,7 @@ std::vector<std::string> FSA::closure(std::string const &name) const
 {
 	State const &s = m_state.at(name);
 	std::vector<std::string> res;
-	
+
 	res.push_back(name);
 
 	if (s.isLambda())
@@ -197,7 +197,7 @@ std::string FSA::toDotFormat() const
 	std::stringstream ss;
 
 	ss << "digraph {\n";
-	
+
 	for (std::map<std::string, State>::const_iterator it = m_state.begin();
 		it != m_state.end(); ++it)
 	{

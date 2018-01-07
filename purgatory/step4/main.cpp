@@ -89,7 +89,7 @@ int main()
 
 	std::ofstream file2("dfa.txt");
 
-	file2 << dfa;
+	file2 << *dfa;
 
 
 	Matcher m(*dfa);
