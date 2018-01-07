@@ -45,18 +45,18 @@ int main()
 	FSA &criminel = fsas[2];
 	FSA &mechant = fsas[3];
 
-	std::ofstream evilFile("dot/original_evil.txt");
-	std::ofstream evianFile("dot/original_evian.txt");
-	std::ofstream criminelFile("dot/original_criminel.txt");
-	std::ofstream mechantFile("dot/original_mechant.txt");
-	std::ofstream concatenation1("dot/concatenation1.txt");
-	std::ofstream concatenation2("dot/concatenation2.txt");
-	std::ofstream join1("dot/join1.txt");
-	std::ofstream join2("dot/join2.txt");
-	std::ofstream join_multiple("dot/join_multiple.txt");
-	std::ofstream combination1("dot/combination1.txt");
-	std::ofstream combination2("dot/combination2.txt");
-	std::ofstream combinationDfa("dot/combination_dfa.txt");
+	std::ofstream evilFile("dot/original_evil.dot");
+	std::ofstream evianFile("dot/original_evian.dot");
+	std::ofstream criminelFile("dot/original_criminel.dot");
+	std::ofstream mechantFile("dot/original_mechant.dot");
+	std::ofstream concatenation1("dot/concatenation1.dot");
+	std::ofstream concatenation2("dot/concatenation2.dot");
+	std::ofstream join1("dot/join1.dot");
+	std::ofstream join2("dot/join2.dot");
+	std::ofstream join_multiple("dot/join_multiple.dot");
+	std::ofstream combination1("dot/combination1.dot");
+	std::ofstream combination2("dot/combination2.dot");
+	std::ofstream combinationDfa("dot/combination_dfa.dot");
 
 	evilFile << evil;
 	evianFile << evian;
