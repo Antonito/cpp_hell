@@ -1,5 +1,5 @@
 #ifndef REFERENCE_WRAPPER_HPP_
-#define REFERENCE_WRAPPER_HPP_
+# define REFERENCE_WRAPPER_HPP_
 
 template <typename T>
 class ReferenceWrapper
@@ -11,7 +11,7 @@ public:
 	{
 	}
 
-	operator T&() const 
+	operator T&() const
 	{
 		return *_refAddr;
 	}

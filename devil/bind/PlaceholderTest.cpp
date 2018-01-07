@@ -13,6 +13,11 @@ static void printParameters(std::ostream &stream, std::string const &p1,
 	"P5: " << p5 << std::endl;
 }
 
+static void printTwoInt(int const nb1, int const nb2)
+{
+	std::cout << "Nb1: " << nb1 << " | " << "Nb2: " << nb2 << std::endl;
+}
+
 void placeholderTest()
 {
 	std::string const str = "Hello";
@@ -46,4 +51,8 @@ void placeholderTest()
 		Placeholder::_2, Placeholder::_3,
 		Placeholder::_4, Placeholder::_5,
 		Placeholder::_6)(::ref(std::cout), str, nb1, nb2, ptr, c1);
+	std::cout << "-- PlaceHolder_1 PlacerHolder_2 parameter --\n";
+	bind(&printTwoInt, Placeholder::_1, Placeholder::_2)(nb1, nb1 + 2);
+	std::cout << "-- PlaceHolder_2 PlacerHolder_1 parameter --\n";
+	bind(&printTwoInt, Placeholder::_2, Placeholder::_1)(nb1, nb1 + 2);
 }

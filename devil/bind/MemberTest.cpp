@@ -54,7 +54,7 @@ public:
 		std::cout << "Value is now " << _value << std::endl;
 	}
 
-	int getValue() const 
+	int getValue() const
 	{
 		return _value;
 	}

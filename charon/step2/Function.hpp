@@ -1,7 +1,8 @@
 #ifndef FUNCTION_HPP_
-#define FUNCTION_HPP_
+# define FUNCTION_HPP_
 
-template <typename R, typename Arg1 = void, typename Arg2 = void, typename Arg3 = void, typename Arg4 = void>
+template <typename R, typename Arg1 = void, typename Arg2 = void,
+		typename Arg3 = void, typename Arg4 = void>
 class Function;
 
 template <typename R>
@@ -51,7 +52,7 @@ public:
 		return *this;
 	}
 
-	R operator()()
+	R operator()() const
 	{
 		if (!m_callable)
 		{
@@ -111,7 +112,7 @@ public:
 		return *this;
 	}
 
-	R operator()(Arg1 a)
+	R operator()(Arg1 a) const
 	{
 		if (!m_callable)
 		{
@@ -171,7 +172,7 @@ public:
 		return *this;
 	}
 
-	R operator()(Arg1 a, Arg2 b)
+	R operator()(Arg1 a, Arg2 b) const
 	{
 		if (!m_callable)
 		{
@@ -231,7 +232,7 @@ public:
 		return *this;
 	}
 
-	R operator()(Arg1 a, Arg2 b, Arg3 c)
+	R operator()(Arg1 a, Arg2 b, Arg3 c) const
 	{
 		if (!m_callable)
 		{
@@ -244,7 +245,8 @@ private:
 	ICallable *m_callable;
 };
 
-template <typename R, typename Arg1, typename Arg2, typename Arg3, typename Arg4>
+template <typename R, typename Arg1, typename Arg2,
+		typename Arg3, typename Arg4>
 class Function<R(Arg1, Arg2, Arg3, Arg4)>
 {
 public:
@@ -291,7 +293,7 @@ public:
 		return *this;
 	}
 
-	R operator()(Arg1 a, Arg2 b, Arg3 c, Arg4 d)
+	R operator()(Arg1 a, Arg2 b, Arg3 c, Arg4 d) const
 	{
 		if (!m_callable)
 		{
@@ -303,4 +305,5 @@ public:
 private:
 	ICallable *m_callable;
 };
+
 #endif

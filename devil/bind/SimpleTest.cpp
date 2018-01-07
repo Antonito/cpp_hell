@@ -22,7 +22,7 @@ static int twoParams(int v1, int v2)
 
 static double threeParams(int a, int b, double c)
 {
-	std::cout << "(" << a << " + " << b 
+	std::cout << "(" << a << " + " << b
 		<< ") / " << c << ": ";
 	return (a + b) / c;
 }
